@@ -11,6 +11,7 @@ from sklearn.feature_selection import SelectKBest,chi2
 from hockey_rink import BDCRink
 import hockey_mst
 from sklearn.metrics import PrecisionRecallDisplay
+import json
 
 #display stuff
 plt.rcParams["font.family"] = "Consolas"
@@ -18,7 +19,7 @@ pd.set_option('precision', 5)
 
 
 ## Residual Data Cleaning
-unflipped_df = pd.read_csv('C:/Users/carli/Documents/Hockey Research/BDC/2022/bdc22-mst/all_powerplays_4-13-22_danger_situations_ozone.csv') #24 of 35 powerplays included
+unflipped_df = pd.read_csv('C:/Users/carli/Documents/Hockey Research/BDC/2022/bdc22-mst/all_powerplays_4-13-22_danger_situations_ozone.csv') #24 of 35 powerplays included, replace with 4-21 data asap
 unflipped_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
 
 #finding columns of x and y coordinates as well as positions
@@ -66,12 +67,16 @@ scaler = counts[0]/counts[1]
 #setting up interaction terms
 interactions = PolynomialFeatures(interaction_only=True,include_bias = False)
 X_w_inter = interactions.fit_transform(X)
-new_ind_vars = interactions.get_feature_names_out()
+new_ind_vars_raw = interactions.get_feature_names_out()
 
 #variable selection - honestly not the best variable selection method but it's the one I can do without fucking up the data and retaining variable names to give to An
 selection = SelectKBest(chi2, k=40)
 trans_X = selection.fit_transform(X_w_inter, y) #k should be somewhere between 40 and 60 otherwise model is :(
-selected_feature_names = new_ind_vars[selection.get_support()]
+selected_feature_names_raw = new_ind_vars_raw[selection.get_support()]
+selected_feature_names = []
+for i in selected_feature_names_raw:
+    j = i.replace(' ', '_')
+    selected_feature_names.append(j)
 
 #splitting training and testing
 X_train, X_test, y_train, y_test = train_test_split(trans_X, y, test_size=0.2, random_state=366)
@@ -81,7 +86,21 @@ model1_log = linear_model.LogisticRegression(solver='liblinear',max_iter=10000, 
 model1_log.fit(X_train,y_train)
 
 #get features selected by SelectKBest and also their coefficients in the model to put in saved json object
-features_coef = pd.DataFrame(np.array([selected_features, model1_log.coef_[0]]).T)
+selected_feature_names.append('intercept')
+feature_dict = {key: None for key in selected_feature_names}
+model1_log.coef_[0]
+print(feature_dict)
+m = 0
+for feature in feature_dict:
+    if feature == 'intercept':
+        feature_dict['intercept'] = model1_log.intercept_[0]
+    else:
+        feature_dict[feature] = model1_log.coef_[0][m]
+    m += 1
+with open("feature_dict.json", "w") as outfile:
+    json.dump(feature_dict, outfile)
+#old way of getting features and values
+#features_coef = pd.DataFrame(np.array([selected_features, model1_log.coef_[0]]).T)
 #features_coef.to_csv('2022/bdc22-mst/features_coefficients.csv', header=False, index=False)
 
 ##Model Evalution
@@ -136,45 +155,86 @@ plt.title("Training Set 2-class Precision-Recall curve")
 plt.plot([1, 0], [0, 1],'r--')
 plt.show()
 
+raw_coord_pairs = np.array([x_coords,y_coords]).T
+raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
+home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
+home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+df_all_no_na['clock_seconds'].iloc[358]
+df_all_no_na["venue"].iloc[358]
+df_all_no_na["D MST"].iloc[358]
+df_all_no_na[x_cols].iloc[358]
+df_all_no_na[y_cols].iloc[360]
+
+df_all_no_na[positions].iloc[276]
 
 ## Plotting, still fiddling with this
-for i in [0,358,35,37,282]:
+for i in [278,71,37,12]:
+    if (i == 12) | (i == 71):
+        y_coord = 85-df_all_no_na['y_coord'].iloc[i]
+    else:
+        y_coord = df_all_no_na['y_coord'].iloc[i]
     x_coords = df_all_no_na[x_cols].iloc[i]
     y_coords = df_all_no_na[y_cols].iloc[i]
     raw_coord_pairs = np.array([x_coords,y_coords]).T
+    #print(df_all_no_na.iloc[i])
     prob = model1_log.predict_proba(np.array([trans_X[i]]))[:,1][0] #the second value in each row output by predict_proba is probability of a 1. check model1_log.classes_ for reference
-    print(df_all_no_na.iloc[i])
     fig, ax = plt.subplots(1, 1, figsize=(20, 10))
     rink = BDCRink()
     rink.draw(ax=ax)
     player_role = df_all_no_na[positions].iloc[i]
-    #print(raw_coord_pairs)
-    print(player_role)
+    features_coef = pd.DataFrame(np.array([np.array(selected_feature_names)[:-1], trans_X[i]]).T)
+
+    raw_all_coord_pairs = raw_coord_pairs[~(player_role == "Goalie")]
+    all_coord_pairs = raw_all_coord_pairs[~np.isnan(raw_all_coord_pairs)]
+    all_coord_pairs = all_coord_pairs.reshape(int(len(all_coord_pairs)/2),2)
+    plotted = np.argwhere(df_all_no_na["All MST"].iloc[i] > 0)
+    for m in plotted:
+        j,k = m
+        rink.arrow(all_coord_pairs[j,0],all_coord_pairs[j,1],all_coord_pairs[k,0],all_coord_pairs[k,1], color= 'dimgray',width=1)
+
     if df_all_no_na['venue'].iloc[i] == 'home': #home team is the offensive team
         raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
         home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
         home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
-        print(home_coord_pairs)
-        rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=80, ax = ax)
-        rink.scatter(df_all_no_na['x_coord'].iloc[i],df_all_no_na['y_coord'].iloc[i], label = "Puck Location", c='black', s=80, ax = ax)
-        #print(df['All MST'].iloc[i])
+        plotted = np.argwhere(df_all_no_na["O MST"].iloc[i] > 0)
+        for m in plotted:
+            j,k = m
+            rink.arrow(home_coord_pairs[j,0],home_coord_pairs[j,1],home_coord_pairs[k,0],home_coord_pairs[k,1], color= 'lightgreen')
+        rink.scatter(df_all_no_na['x_coord'].iloc[i],y_coord, label = "Puck Location", c='black', s=200, ax = ax)
+        rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=160, ax = ax,edgecolors='black',zorder=101)
+
         raw_away_coord_pairs = raw_coord_pairs[:7]#[~(player_role[7:] == "Goalie")]
         away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
         away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
-        print(away_coord_pairs)
-        rink.scatter(away_coord_pairs.T[0],away_coord_pairs.T[1], label = "Defensive", c='mediumpurple', s=80, ax = ax)
+        plotted = np.argwhere(df_all_no_na["D MST"].iloc[i] > 0)
+        for m in plotted:
+            j,k = m
+            rink.arrow(away_coord_pairs[j,0],away_coord_pairs[j,1],away_coord_pairs[k,0],away_coord_pairs[k,1], color= 'darkorange')
+        rink.scatter(away_coord_pairs.T[0],away_coord_pairs.T[1], label = "Defensive", c='darkorange', s=160, ax = ax,edgecolors='black',zorder=101)
     elif df_all_no_na['venue'].iloc[i] == 'away': #away is offensive team
+
         raw_home_coord_pairs = raw_coord_pairs[7:]#[~(player_role[7:] == "Goalie")]
         home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
         home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
-        rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Defensive", c='mediumpurple', s=80, ax=ax)
+        plotted = np.argwhere(df_all_no_na["D MST"].iloc[i] > 0)
+        for m in plotted:
+            j,k = m
+            rink.arrow(home_coord_pairs[j,0],home_coord_pairs[j,1],home_coord_pairs[k,0],home_coord_pairs[k,1], color= 'darkorange')
+        rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Defensive", c='darkorange', s=160, ax=ax,edgecolors='black',zorder=101)
+
         raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[7:] == "Goalie")]
         away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
         away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
-        print(away_coord_pairs)
-        rink.scatter(away_coord_pairs.T[0], away_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=80, ax=ax)
-        rink.scatter(df_all_no_na['x_coord'].iloc[i],df_all_no_na['y_coord'].iloc[i], label = "Puck Location", c='black', s=80, ax=ax)
-    plt.title("Probability of a Dangerous Situation = "+str(prob), fontsize = 20)
+
+        plotted = np.argwhere(df_all_no_na["O MST"].iloc[i] > 0)
+        for m in plotted:
+            j,k = m
+            rink.arrow(away_coord_pairs[j,0],away_coord_pairs[j,1],away_coord_pairs[k,0],away_coord_pairs[k,1], color= 'lightgreen')
+        rink.scatter(df_all_no_na['x_coord'].iloc[i],y_coord, label = "Puck Location",c='black', s=200, ax=ax,zorder=101)
+        rink.scatter(away_coord_pairs.T[0], away_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=160,ax=ax,edgecolors='black',zorder=101)
+    plt.title("Game State "+str(i)+": Probability of a Dangerous Situation = "+str(prob)+'\n # of O Players: '+str(df_all_no_na['O Players'].iloc[i])+', # of D Players (with Goalie if present): '+str(df_all_no_na['D Players'].iloc[i]), fontsize = 20)
     leg = plt.legend(fontsize = 15)
     leg.set_zorder(120)
-    plt.show()
+    plt.savefig(fname='./tool_test_data/Game_State_'+str(i)+'.png')
+    features_coef.to_csv('./tool_test_data/feature_values'+str(i)+'.csv', header=False, index=False)
+    df_all_no_na.iloc[i].to_csv('./tool_test_data/raw_values'+str(i)+'.csv', header=False, index=True)

@@ -1,0 +1,145 @@
+game_date,14/2/2022
+season_year,2021
+team_name,Olympic (Women) - Canada
+opp_team_name,Olympic (Women) - Switzerland
+venue,home
+period,2
+clock_seconds,185
+situation_type,5 on 4
+goals_for,8
+goals_against,3
+player_name,Sarah Nurse
+event,Shot
+high_danger_unblocked,0.0
+high_danger_within_four,0
+event_successful,f
+x_coord,157.0
+y_coord,49.0
+distance_to_attacking_net,32.65348373
+event_type,Snapshot
+player_name_2,
+x_coord_2,
+y_coord_2,
+distance_to_net_attacking_net_2,
+event_detail_1,Blocked
+event_detail_2,t
+event_detail_3,f
+game_seconds,2215
+away_player_1,
+away_position_1,
+away_x_1,166.88325585
+away_y_1,50.57783533
+away_player_2,Sarah Forster
+away_position_2,Defense
+away_x_2,168.8159785
+away_y_2,56.06539834
+away_player_3,Keely Moy
+away_position_3,Center
+away_x_3,171.98993018
+away_y_3,45.70222493
+away_player_4,Saskia Maurer
+away_position_4,Goalie
+away_x_4,187.51415753
+away_y_4,45.15260264
+away_player_5,Stefanie Wetli
+away_position_5,Defense
+away_x_5,182.6508207
+away_y_5,43.1668748
+home_player_1,Melodie Daoust
+home_position_1,Center
+home_x_1,168.88856121999999
+home_y_1,60.92778757
+home_player_2,Natalie Spooner
+home_position_2,Center
+home_x_2,176.15735841
+home_y_2,52.45920603
+home_player_3,Jocelyne Larocque
+home_position_3,Defense
+home_x_3,172.89725166
+home_y_3,33.6764188
+home_player_4,Sarah Nurse
+home_position_4,Center
+home_x_4,161.32908394999998
+home_y_4,48.3591172
+home_player_5,
+home_position_5,
+home_x_5,
+home_y_5,
+away_player_6,
+away_position_6,
+away_x_6,
+away_y_6,
+home_player_6,
+home_position_6,
+home_x_6,
+home_y_6,
+away_player_7,
+away_position_7,
+away_x_7,
+away_y_7,
+home_player_7,
+home_position_7,
+home_x_7,
+home_y_7,
+away_player_10,
+away_position_10,
+away_x_10,
+away_y_10,
+away_player_8,
+away_position_8,
+away_x_8,
+away_y_8,
+away_player_9,
+away_position_9,
+away_x_9,
+away_y_9,
+home_player_10,
+home_position_10,
+home_x_10,
+home_y_10,
+home_player_8,
+home_position_8,
+home_x_8,
+home_y_8,
+home_player_9,
+home_position_9,
+home_x_9,
+home_y_9,
+O Players,4.0
+D Players,5.0
+All MST,"[[ 0.          5.81796912  7.06043196  0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          7.9387815
+   0.          0.        ]
+ [ 0.          0.         10.95822006  0.          0.          0.
+   0.          0.        ]
+ [ 0.          4.86293093  0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.         12.0599853   0.          0.          0.
+   0.          0.        ]
+ [ 5.980931    0.          0.          0.          0.          0.
+   0.          0.        ]]"
+All_Avg_Edge,7.811321409742409
+All_Total_Edge,54.67924986819686
+All_Avg_Edges per Player,1.75
+O MST,"[[ 0.         11.16029954  0.         14.66687327]
+ [ 0.          0.          0.          0.        ]
+ [ 0.          0.          0.         18.69235503]
+ [ 0.          0.          0.          0.        ]]"
+O_Avg_Edge,14.839842612873255
+O_Total_Edge,44.519527838619766
+O_Avg_Edges_per_Player,1.5
+D MST,"[[ 0.          0.          0.          0.          0.        ]
+ [ 5.81796912  0.          0.          0.          0.        ]
+ [ 7.06043196  0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          0.         10.95822006  5.25310957  0.        ]]"
+D_Avg_Edge,7.272432678239715
+D_Total_Edge,29.08973071295886
+D_Avg_Edges per Player,1.6
+OD_MST_Ratio,2.040561015748753
+All_OCR,0.5714285714285714

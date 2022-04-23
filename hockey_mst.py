@@ -95,28 +95,28 @@ def ind_var_calculation(df, x_cols, y_cols, positions):
                 raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
                 home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
                 home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
-                df['O Players'] = len(home_coord_pairs)
+                df['O Players'].iloc[i] = len(home_coord_pairs)
                 df['O MST'].iloc[i],df['O_Avg_Edge'].iloc[i], df['O_Total_Edge'].iloc[i], df["O_Avg_Edges_per_Player"].iloc[i] = mst_properties(home_coord_pairs)
 
                 #leaving goalie in for defensive team because it matters to the model
                 raw_away_coord_pairs = raw_coord_pairs[:7]#[~(player_role[7:] == "Goalie")]
                 away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
                 away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
-                df['D Players'] = len(away_coord_pairs)
+                df['D Players'].iloc[i] = len(away_coord_pairs)
                 df['D MST'].iloc[i],df['D_Avg_Edge'].iloc[i], df['D_Total_Edge'].iloc[i], df["D_Avg_Edges per Player"].iloc[i] = mst_properties(away_coord_pairs)
             elif df['venue'].iloc[i] == 'away': #away is offensive team
                 #leaving goalie in for defensive team because it matters to the model
                 raw_home_coord_pairs = raw_coord_pairs[7:]#[~(player_role[7:] == "Goalie")]
                 home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
                 home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
-                df['D Players'] = len(home_coord_pairs)
+                df['D Players'].iloc[i] = len(home_coord_pairs)
                 df['D MST'].iloc[i],df['D_Avg_Edge'].iloc[i], df['D_Total_Edge'].iloc[i], df["D_Avg_Edges per Player"].iloc[i] = mst_properties(home_coord_pairs)
 
                 #excluding goalie and empty coordinate spots
                 raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[7:] == "Goalie")]
                 away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
                 away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
-                df['O Players'] = len(away_coord_pairs)
+                df['O Players'].iloc[i] = len(away_coord_pairs)
                 df['O MST'].iloc[i],df['O_Avg_Edge'].iloc[i], df['O_Total_Edge'].iloc[i], df["O_Avg_Edges_per_Player"].iloc[i] = mst_properties(away_coord_pairs)
             #calculating MST ratio betweeen offensive and defense average edge length
             df["OD_MST_Ratio"].iloc[i] = df['O_Avg_Edge'].iloc[i]/df['D_Avg_Edge'].iloc[i]

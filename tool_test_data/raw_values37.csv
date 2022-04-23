@@ -1,0 +1,145 @@
+game_date,8/2/2022
+season_year,2021
+team_name,Olympic (Women) - United States
+opp_team_name,Olympic (Women) - Canada
+venue,home
+period,1
+clock_seconds,150
+situation_type,5 on 4
+goals_for,0
+goals_against,1
+player_name,Cayla Barnes
+event,Shot
+high_danger_unblocked,0.0
+high_danger_within_four,0
+event_successful,f
+x_coord,68.0
+y_coord,41.0
+distance_to_attacking_net,57.01973343
+event_type,Snapshot
+player_name_2,
+x_coord_2,
+y_coord_2,
+distance_to_net_attacking_net_2,
+event_detail_1,Blocked
+event_detail_2,t
+event_detail_3,f
+game_seconds,1050
+away_player_1,Blayre Turnbull
+away_position_1,Center
+away_x_1,37.21875084
+away_y_1,41.71660071
+away_player_2,Jocelyne Larocque
+away_position_2,Defense
+away_x_2,21.7604017
+away_y_2,47.67518948
+away_player_3,Ann-Renee Desbiens
+away_position_3,Goalie
+away_x_3,15.11338869
+away_y_3,41.1755338
+away_player_4,Marie-Philip Poulin
+away_position_4,Center
+away_x_4,61.53136585
+away_y_4,32.84962419
+away_player_5,Ashton Bell
+away_position_5,Defense
+away_x_5,22.15365322
+away_y_5,34.45199024
+home_player_1,Alex Carpenter
+home_position_1,Left Wing
+home_x_1,19.93546706
+home_y_1,39.26183114
+home_player_2,Kelly Pannek
+home_position_2,Center
+home_x_2,35.55114008
+home_y_2,66.15101048
+home_player_3,Amanda Kessel
+home_position_3,Center
+home_x_3,66.70686142
+home_y_3,19.69801718
+home_player_4,Cayla Barnes
+home_position_4,Defense
+home_x_4,72.65819587
+home_y_4,42.08232138
+home_player_5,
+home_position_5,
+home_x_5,
+home_y_5,
+away_player_6,
+away_position_6,
+away_x_6,
+away_y_6,
+home_player_6,
+home_position_6,
+home_x_6,
+home_y_6,
+away_player_7,
+away_position_7,
+away_x_7,
+away_y_7,
+home_player_7,
+home_position_7,
+home_x_7,
+home_y_7,
+away_player_10,
+away_position_10,
+away_x_10,
+away_y_10,
+away_player_8,
+away_position_8,
+away_x_8,
+away_y_8,
+away_player_9,
+away_position_9,
+away_x_9,
+away_y_9,
+home_player_10,
+home_position_10,
+home_x_10,
+home_y_10,
+home_player_8,
+home_position_8,
+home_x_8,
+home_y_8,
+home_player_9,
+home_position_9,
+home_x_9,
+home_y_9,
+O Players,4.0
+D Players,5.0
+All MST,"[[ 0.          0.         25.87907497  0.          0.          0.
+   0.          0.        ]
+ [16.56699545  0.          0.          0.          0.         23.05516052
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+  14.13331247 14.45852841]
+ [ 0.          0.          0.          0.          5.29668947  0.
+   0.          0.        ]
+ [ 0.          8.60900604  0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.        ]]"
+All_Avg_Edge,15.428395332194308
+All_Total_Edge,107.99876732536015
+All_Avg_Edges per Player,1.75
+O MST,"[[ 0.         31.09464921  0.          0.        ]
+ [ 0.          0.          0.         44.22934981]
+ [ 0.          0.          0.         23.16193982]
+ [ 0.          0.          0.          0.        ]]"
+O_Avg_Edge,32.82864627912364
+O_Total_Edge,98.48593883737092
+O_Avg_Edges_per_Player,1.5
+D MST,"[[ 0.         16.56699545  0.         25.87907497  0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          9.29668252  0.          0.          9.73505843]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]]"
+D_Avg_Edge,15.369452843072644
+D_Total_Edge,61.477811372290574
+D_Avg_Edges per Player,1.6
+OD_MST_Ratio,2.1359671430281426
+All_OCR,0.7142857142857143
