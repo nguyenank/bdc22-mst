@@ -84,17 +84,9 @@ game_df = prepare_data(game_df=game_df)
 
 def data_partition(game_df, prop = 0.4):
 
-    vars = ["high_danger_within_four",
-        "distance_to_attacking_net", 
-        "All_Avg_Edge", 
-        "All_Total_Edge",
-        "O_Avg_Edge",
-        "O_Total_Edge",
-        "O_Avg_Edges_per_Player", 
-        "D_Avg_Edge",
-        "D_Total_Edge",
-        "OD_MST_Ratio", 
-        "All_OCR"]
+    vars = ["high_danger_within_four","distance_to_attacking_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR"]
+    ind_vars = copy.deepcopy(vars) #["distance_to_attacking_net","All_Avg_Edge", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge", "D_Total_Edge", "OD_MST_Ratio", "All_OCR"]
+    ind_vars.remove("high_danger_within_four")
 
     no = len(game_df[game_df.high_danger_within_four == 0])
     yes = len(game_df[game_df.high_danger_within_four == 1])
@@ -123,15 +115,31 @@ def data_partition(game_df, prop = 0.4):
     data = samp_from.append(new_samples, ignore_index=True)
     data = data.append(other, ignore_index=True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
 
-    X = data.drop(columns = ['high_danger_within_four'])
-    y = data[['high_danger_within_four']]
+    X = data[ind_vars].reset_index().drop(columns = ['index'])
+    y = data['high_danger_within_four']
 
     return X, y
 
 X, y = data_partition(game_df=game_df, prop=0.425)
 
-train_x, train_y, test_x, test_y = train_test_split(X, y, test_size=0.2, random_state=366)
+train_x, train_y, test_x, test_y = train_test_split(X, y, test_size=0.25, random_state=366)
+
+test_x = test_x.astype('int64')
+test_y = test_y.astype('int64')
 
 #applying logistic model to training data
 model1_log = LogisticRegression(solver='liblinear', max_iter=10000, random_state=43)
 model1_log.fit(train_x, test_x)
+
+pred = model1_log.predict(train_y)
+mean_squared_error(test_y, pred)
+print("Logistic Regression Score: ", model1_log.score(train_y, test_y))
+res = pd.DataFrame(test_y.reset_index(drop = True)).join(pd.DataFrame(pred, columns=['pred']))
+
+confusion_matrix(res.high_danger_within_four, res.pred)
+
+tpred = model1_log.predict(train_x)
+mean_squared_error(test_x, tpred)
+res = pd.DataFrame(test_x.reset_index(drop = True)).join(pd.DataFrame(tpred, columns=['pred']))
+
+confusion_matrix(res.high_danger_within_four, res.pred)
