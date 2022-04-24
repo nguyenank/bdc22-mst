@@ -19,7 +19,7 @@ pd.set_option('precision', 5)
 
 
 ## Residual Data Cleaning
-unflipped_df = pd.read_csv('C:/Users/carli/Documents/Hockey Research/BDC/2022/bdc22-mst/all_powerplays_4-13-22_danger_situations_ozone.csv') #24 of 35 powerplays included, replace with 4-21 data asap
+unflipped_df = pd.read_csv("all_powerplays_4-13-22_danger_situations_ozone.csv") #24 of 35 powerplays included, replace with 4-21 data asap
 unflipped_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
 
 #finding columns of x and y coordinates as well as positions

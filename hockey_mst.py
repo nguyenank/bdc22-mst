@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import re
 import seaborn as sb
 import copy
+from tqdm import tqdm
 
 #defunct grid binning
 #player_control_area = 5 #feet radius
@@ -60,7 +61,7 @@ def mst_properties(player_positions, player_teams=None):
 
 def ind_var_calculation(df, x_cols, y_cols, positions):
     #MST variable calculations
-    for i in range(len(df)):
+    for i in tqdm(range(len(df))):
         x_coords = df[x_cols].iloc[i]
         y_coords = df[y_cols].iloc[i]
 
@@ -68,7 +69,7 @@ def ind_var_calculation(df, x_cols, y_cols, positions):
         event_team_strength = re.search('(\w) on (\w)',df['situation_type'].iloc[i]).group(1)
         opp_team_strength = re.search('(\w) on (\w)',df['situation_type'].iloc[i]).group(2)
         if ~((x_coords[:7].isnull().all()) | (x_coords[7:].isnull().all())) & (x_coords[:7].count() > 1) & (x_coords[7:].count() > 1):
-            print(str(i)+"/"+str(len(df)))
+            # print(str(i)+"/"+str(len(df)))
 
             #getting coordinates, positions, and respective teams (last one if for OCR calculation) for event
             raw_coord_pairs = np.array([x_coords,y_coords]).T
