@@ -6,6 +6,10 @@ from sklearn.metrics import (
     roc_curve,
     auc
 )
+from sklearn.linear_model import (
+    LogisticRegression,
+    LogisticRegressionCV
+)
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -17,6 +21,7 @@ import os
 import csv
 import sys
 from hockey_rink import BDCRink
+import random
 
 conf_path = os.getcwd()
 
@@ -67,10 +72,66 @@ def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
 
     df_non_na = df_w_ind_vars.fillna(value = np.nan).dropna(subset = vars)
     df_no_na = df_non_na[vars]
-    X = df_no_na[ind_vars].reset_index().drop(columns = 'index')
-    y = df_no_na['high_danger_within_four']
+    # X = df_no_na[ind_vars].reset_index().drop(columns = 'index')
+    # y = df_no_na['high_danger_within_four']
 
-    return df_w_ind_vars
+    return df_no_na
 
-df_w_ind_vars = prepare_data(game_df=df)
+# re-sampling option: https://people.duke.edu/~ccc14/sta-663/ResamplingAndMonteCarloSimulations.html
+# another good option: https://towardsdatascience.com/bootstrap-resampling-2b453bb036ec
 
+game_df = prepare_data(game_df=game_df)
+
+def data_partition(game_df, prop = 0.4):
+
+    vars = ["high_danger_within_four",
+        "distance_to_attacking_net", 
+        "All_Avg_Edge", 
+        "All_Total_Edge",
+        "O_Avg_Edge",
+        "O_Total_Edge",
+        "O_Avg_Edges_per_Player", 
+        "D_Avg_Edge",
+        "D_Total_Edge",
+        "OD_MST_Ratio", 
+        "All_OCR"]
+
+    no = len(game_df[game_df.high_danger_within_four == 0])
+    yes = len(game_df[game_df.high_danger_within_four == 1])
+
+    samp_from = game_df[game_df.high_danger_within_four == 1]
+    other = game_df[game_df.high_danger_within_four == 0]
+
+    goal = round((prop * no) / (1 - prop))
+
+    new_samples = pd.DataFrame(columns=vars)
+
+    random.seed(1423)
+
+    for i in range(1, (goal + 1) - yes):
+
+        s = samp_from.sample()
+        new_samples = new_samples.append(s, ignore_index=True)
+
+        # print(i)
+
+    # plt.hist(x = new_samples.O_Total_Edge)
+    # plt.show()
+
+    # plt.hist(x = samp_from.O_Total_Edge)
+    # plt.show()
+    data = samp_from.append(new_samples, ignore_index=True)
+    data = data.append(other, ignore_index=True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
+
+    X = data.drop(columns = ['high_danger_within_four'])
+    y = data[['high_danger_within_four']]
+
+    return X, y
+
+X, y = data_partition(game_df=game_df, prop=0.425)
+
+train_x, train_y, test_x, test_y = train_test_split(X, y, test_size=0.2, random_state=366)
+
+#applying logistic model to training data
+model1_log = LogisticRegression(solver='liblinear', max_iter=10000, random_state=43)
+model1_log.fit(train_x, test_x)
