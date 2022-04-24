@@ -22,9 +22,13 @@ arr[:, 4] = np.arange(len(xbreaks)) + 44
 arr[:, 5] = np.arange(len(xbreaks)) + 55
 arr[:, 6] = np.arange(len(xbreaks)) + 66
 arr[:, 7] = np.arange(len(xbreaks)) + 77
+# mesh grid
+bisect.bisect_right(df.x_coord, xbreaks.all())
 
-bisect.bisect_right(df.x_coord, arr.all())
+x1_int = pd.Interval(left=-100, right=-80, closed="left")
 
+for i in np.arange(0, len(df)):
+    df.iloc[[i]]['x_coord'].item() in x1_int
 
 class Grid():
     def __init__(self,x,y,grid_len):
