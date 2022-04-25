@@ -10,11 +10,15 @@ from sklearn.linear_model import (
     LogisticRegression,
     LogisticRegressionCV
 )
-from sklearn.model_selection import train_test_split
+from sklearn.feature_selection import (
+    SelectKBest,
+    chi2
+)
+from sklearn.model_selection import GridSearchCV, train_test_split
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler, scale
 import copy
 import pandas as pd
 import os
@@ -22,6 +26,7 @@ import csv
 import sys
 from hockey_rink import BDCRink
 import random
+from imblearn.over_sampling import SMOTE
 
 conf_path = os.getcwd()
 
@@ -116,30 +121,67 @@ def data_partition(game_df, prop = 0.4):
     data = data.append(other, ignore_index=True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
 
     X = data[ind_vars].reset_index().drop(columns = ['index'])
-    y = data['high_danger_within_four']
+    y = data['high_danger_within_four'].astype(int)
 
     return X, y
 
-X, y = data_partition(game_df=game_df, prop=0.425)
+def split_data(game_df):
+    vars = ["high_danger_within_four","distance_to_attacking_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR"]
+    ind_vars = copy.deepcopy(vars) #["distance_to_attacking_net","All_Avg_Edge", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge", "D_Total_Edge", "OD_MST_Ratio", "All_OCR"]
+    ind_vars.remove("high_danger_within_four")
 
+    X = game_df[ind_vars].reset_index().drop(columns = ['index'])
+    y = game_df['high_danger_within_four'].astype(int)
+
+    return X, y
+
+X, y = split_data(game_df=game_df)
+
+# scaler = StandardScaler()
+
+# X, y = data_partition(game_df=game_df, prop=0.35)
+# X_std = scaler.fit_transform(X)
+# interactions = PolynomialFeatures(interaction_only=True, include_bias=True)
+# x_w_inter = interactions.fit_transform(X)
+# new_ind_vars_raw = interactions.get_feature_names_out()
+
+# selection = SelectKBest(chi2, k=40)
+# trans_x = selection.fit_transform(x_w_inter, pd.DataFrame(y, columns=['high_danger_within_four'])) #k should be somewhere between 40 and 60 otherwise model is :(
+# selected_feature_names_raw = new_ind_vars_raw[selection.get_support()]
+# selected_feature_names = []
+# for i in selected_feature_names_raw:
+#     j = i.replace(' ', '_')
+#     selected_feature_names.append(j)
 train_x, train_y, test_x, test_y = train_test_split(X, y, test_size=0.25, random_state=366)
 
 test_x = test_x.astype('int64')
 test_y = test_y.astype('int64')
 
+sm = SMOTE(random_state=123)
+
+x_train_res, y_train_res = sm.fit_resample(train_x, test_x.ravel())
+
+param = [{'C': [10**-2,10**-1,10**0,10**1,10**2], 'penalty': ['l1', 'l2']}]
+
+lr_model = LogisticRegression(solver='liblinear', max_iter=10000, random_state=123)
+gs_model = GridSearchCV(estimator=lr_model, param_grid=param, cv=10)
+
+gs_model.fit(x_train_res, y_train_res)
+
+model1_log = LogisticRegression(**gs_model.best_params_, solver='liblinear')
+model1_log.fit(x_train_res, y_train_res)
+
 #applying logistic model to training data
-model1_log = LogisticRegression(solver='liblinear', max_iter=10000, random_state=43)
-model1_log.fit(train_x, test_x)
+# model1_log = LogisticRegressionCV(solver='liblinear', penalty="l2", max_iter=10000, random_state=43)
+# model1_log.fit(train_x, test_x)
 
 pred = model1_log.predict(train_y)
 mean_squared_error(test_y, pred)
 print("Logistic Regression Score: ", model1_log.score(train_y, test_y))
 res = pd.DataFrame(test_y.reset_index(drop = True)).join(pd.DataFrame(pred, columns=['pred']))
-
 confusion_matrix(res.high_danger_within_four, res.pred)
 
 tpred = model1_log.predict(train_x)
 mean_squared_error(test_x, tpred)
 res = pd.DataFrame(test_x.reset_index(drop = True)).join(pd.DataFrame(tpred, columns=['pred']))
-
 confusion_matrix(res.high_danger_within_four, res.pred)
