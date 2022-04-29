@@ -41,7 +41,7 @@ from hockey_mst import (
 plt.rcParams["font.family"] = "Consolas"
 pd.set_option('precision', 5)
 
-game_df = pd.read_csv("all_powerplays_4-13-22_danger_situations_ozone.csv")
+game_df = pd.read_csv("all_powerplays_4-23-22_cleaned.csv")
 
 def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
     """taking a raw game of data and turning it into what we want for the prep"""
