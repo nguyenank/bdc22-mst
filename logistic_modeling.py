@@ -46,6 +46,8 @@ game_df = pd.read_csv("all_powerplays_4-13-22_danger_situations_ozone.csv")
 def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
     """taking a raw game of data and turning it into what we want for the prep"""
     game_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
+    # gonna want to comment this out lmao
+    game_df['angle'] = 1
 
     x_cols = ['away_x_1', 'away_x_2','away_x_3', 'away_x_4','away_x_5', 'away_x_6','away_x_7','home_x_1', 'home_x_2','home_x_3', 'home_x_4','home_x_5', 'home_x_6','home_x_7']
     y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7']
