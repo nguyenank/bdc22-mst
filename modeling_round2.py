@@ -67,7 +67,7 @@ param = [{
     'tol': [10**-5, 10**-4, 10**-3]
 }]
 # C = 1/10, tol = 1**-5
-train_x, train_y, test_x, test_y = train_test_split(x_w_inter, y, test_size=0.25, random_state=366)
+train_x, train_y, test_x, test_y = train_test_split(x_w_inter, y, test_size=0.33, random_state=367)
 
 test_x = test_x.astype('int64')
 test_y = test_y.astype('int64')
@@ -92,8 +92,7 @@ train_x_samp, test_x_samp = resample_data(X = train_x, Y = test_x, prop=0.25)
 model1_log = LogisticRegression(solver='liblinear', 
                                 max_iter=10000, 
                                 random_state=123,
-                                C=1, tol=10**-5,
-                                class_weight={0:1, 1:1.5})
+                                C=1, tol=10**-5)
 model1_log.fit(train_x_samp, test_x_samp)
 
 #applying logistic model to training data
