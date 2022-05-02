@@ -40,6 +40,7 @@ sys.path.append(conf_path)
 
 from prepare_data import prepare_data
 from split_data import split_data
+from data_partition import resample_data
 
 plt.rcParams["font.family"] = "Consolas"
 pd.set_option('precision', 5)
@@ -86,11 +87,14 @@ test_y = test_y.astype('int64')
 
 # gs_model.fit(train_x, test_x)
 
+train_x_samp, test_x_samp = resample_data(X = train_x, Y = test_x, prop=0.25)
+
 model1_log = LogisticRegression(solver='liblinear', 
                                 max_iter=10000, 
                                 random_state=123,
-                                C=1, tol=10**-5)
-model1_log.fit(train_x, test_x)
+                                C=1, tol=10**-5,
+                                class_weight={0:1, 1:1.5})
+model1_log.fit(train_x_samp, test_x_samp)
 
 #applying logistic model to training data
 # model1_log = LogisticRegressionCV(solver='liblinear', penalty="l2", max_iter=10000, random_state=43)
@@ -103,20 +107,20 @@ dummy_clf = DummyClassifier(random_state=123, strategy='stratified')
 dummy_clf.fit(train_x, test_x)
 dpred = dummy_clf.predict(train_y)
 
-mean_squared_error(test_y, dpred)
-print("Logistic Regression Score for dummy: ", dummy_clf.score(train_y, test_y))
+# mean_squared_error(test_y, dpred)
+# print("Logistic Regression Score for dummy: ", dummy_clf.score(train_y, test_y))
 d = pd.DataFrame(test_y.reset_index(drop = True)).join(pd.DataFrame(dpred, columns=['pred']))
 confusion_matrix(d.high_danger_within_four, d.pred)
 
 pred = model1_log.predict(train_y)
-mean_squared_error(test_y, pred)
-print("Logistic Regression Score for test: ", model1_log.score(train_y, test_y))
+# mean_squared_error(test_y, pred)
+# print("Logistic Regression Score for test: ", model1_log.score(train_y, test_y))
 re1 = pd.DataFrame(test_y.reset_index(drop = True)).join(pd.DataFrame(pred, columns=['pred']))
 confusion_matrix(re1.high_danger_within_four, re1.pred)
 
 tpred = model1_log.predict(train_x)
-mean_squared_error(test_x, tpred)
-print("Logistic Regression Score for training: ", model1_log.score(train_x, test_x))
+# mean_squared_error(test_x, tpred)
+# print("Logistic Regression Score for training: ", model1_log.score(train_x, test_x))
 res = pd.DataFrame(test_x.reset_index(drop = True)).join(pd.DataFrame(tpred, columns=['pred']))
 confusion_matrix(res.high_danger_within_four, res.pred)
 
