@@ -163,8 +163,11 @@ sm = SMOTE(random_state=123)
 
 x_train_res, y_train_res = sm.fit_resample(train_x, test_x.ravel())
 
-param = [{'C': [10**-2,10**-1,10**0,10**1,10**2], 'penalty': ['l1', 'l2']}]
-
+param = [{
+    'C': [10**-2,10**-1,10**0,10**1,10**2,10**3], 
+    'penalty': ['l1'], 
+    'tol': [10**-6, 10**-5, 10**-4, 10**-3, 10**-2, 10**-1, 10**0, 10**1, 10**2, 10**3]
+}]
 lr_model = LogisticRegression(solver='liblinear', max_iter=10000, random_state=123)
 gs_model = GridSearchCV(estimator=lr_model, param_grid=param, cv=10)
 
