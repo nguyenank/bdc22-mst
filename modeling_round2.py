@@ -95,7 +95,7 @@ model1_log = LogisticRegression(solver='liblinear',
                                 C=1, tol=10**-5)
 model1_log.fit(train_x_samp, test_x_samp)
 
-#applying logistic model to training data
+# applying logistic model to training data
 # model1_log = LogisticRegressionCV(solver='liblinear', penalty="l2", max_iter=10000, random_state=43)
 # model1_log.fit(train_x, test_x)
 

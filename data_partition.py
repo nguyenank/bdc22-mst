@@ -2,7 +2,7 @@ import copy
 import pandas as pd
 import random
 
-def data_partition(game_df, prop = 0.4):
+def data_partition(game_df, type = "over", prop = 0.4):
 
     vars = ["high_danger_within_four",
             "distance_to_net", 
@@ -16,6 +16,7 @@ def data_partition(game_df, prop = 0.4):
             "OD_MST_Ratio", 
             "All_OCR",
             'angle_to_attacking_net']    
+
     ind_vars = copy.deepcopy(vars) #["distance_to_attacking_net","All_Avg_Edge", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge", "D_Total_Edge", "OD_MST_Ratio", "All_OCR"]
     ind_vars.remove("high_danger_within_four")
 
@@ -25,18 +26,21 @@ def data_partition(game_df, prop = 0.4):
     samp_from = game_df[game_df.high_danger_within_four == 1]
     other = game_df[game_df.high_danger_within_four == 0]
 
-    goal = round((prop * no) / (1 - prop))
+    if type == "over":
+        goal = round((prop * no) / (1 - prop))
 
-    new_samples = pd.DataFrame(columns=vars)
+        new_samples = pd.DataFrame(columns=vars)
 
-    random.seed(1423)
+        random.seed(1423)
 
-    for i in range(1, (goal + 1) - yes):
+        for i in range(1, (goal + 1) - yes):
 
-        s = samp_from.sample()
-        new_samples = new_samples.append(s, ignore_index=True)
+            s = samp_from.sample()
+            new_samples = new_samples.append(s, ignore_index=True)
 
         # print(i)
+    elif type == "under":
+        
 
     # plt.hist(x = new_samples.O_Total_Edge)
     # plt.show()
