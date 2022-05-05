@@ -1,10 +1,21 @@
-from copy import copy
+import copy
 import pandas as pd
 import random
 
 def data_partition(game_df, prop = 0.4):
 
-    vars = ["high_danger_within_four","distance_to_attacking_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR"]
+    vars = ["high_danger_within_four",
+            "distance_to_net", 
+            "All_Avg_Edge", 
+            "All_Total_Edge",
+            "O_Avg_Edge",
+            "O_Total_Edge",
+            "O_Avg_Edges_per_Player", 
+            "D_Avg_Edge",
+            "D_Total_Edge",
+            "OD_MST_Ratio", 
+            "All_OCR",
+            'angle_to_attacking_net']    
     ind_vars = copy.deepcopy(vars) #["distance_to_attacking_net","All_Avg_Edge", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge", "D_Total_Edge", "OD_MST_Ratio", "All_OCR"]
     ind_vars.remove("high_danger_within_four")
 
@@ -35,10 +46,10 @@ def data_partition(game_df, prop = 0.4):
     data = samp_from.append(new_samples, ignore_index=True)
     data = data.append(other, ignore_index=True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
 
-    X = data[ind_vars].reset_index().drop(columns = ['index'])
-    y = data['high_danger_within_four'].astype(int)
+    # X = data[ind_vars].reset_index().drop(columns = ['index'])
+    # y = data['high_danger_within_four'].astype(int)
 
-    return X, y
+    return data
 
 def resample_data(X, Y, prop = 0.45):
     data = pd.DataFrame(Y).reset_index(drop=True).join(pd.DataFrame(X))

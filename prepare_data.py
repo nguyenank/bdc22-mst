@@ -23,6 +23,7 @@ def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
     game_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
     # gonna want to comment this out lmao
     # game_df['angle'] = 1
+    game_df['angle_to_attacking_net'] = game_df['angle_to_attacking_net'] + 180
 
     if 'assumed_danger_states' in game_df.columns:
         game_df['high_danger_within_four'] = game_df['assumed_danger_states']
