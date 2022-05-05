@@ -22,13 +22,17 @@ def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
     takes a game dataframe as the input and returns the edited dataframe"""
     game_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
     # gonna want to comment this out lmao
-    game_df['angle'] = 1
+    # game_df['angle'] = 1
+
+    if 'assumed_danger_states' in game_df.columns:
+        game_df['high_danger_within_four'] = game_df['assumed_danger_states']
+        # print("Big Ballin'")
 
     x_cols = ['away_x_1', 'away_x_2','away_x_3', 'away_x_4','away_x_5', 'away_x_6','away_x_7','home_x_1', 'home_x_2','home_x_3', 'home_x_4','home_x_5', 'home_x_6','home_x_7']
     y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7']
     positions = ['away_position_1', 'away_position_2','away_position_3', 'away_position_4','away_position_5', 'away_position_6','away_position_7','home_position_1', 'home_position_2','home_position_3', 'home_position_4','home_position_5', 'home_position_6','home_position_7']
     vars = ["high_danger_within_four",
-            "distance_to_attacking_net", 
+            "distance_to_net", 
             "All_Avg_Edge", 
             "All_Total_Edge",
             "O_Avg_Edge",
@@ -38,7 +42,7 @@ def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
             "D_Total_Edge",
             "OD_MST_Ratio", 
             "All_OCR",
-            'angle']
+            'angle_to_attacking_net']
 
     df = copy.deepcopy(game_df)
 

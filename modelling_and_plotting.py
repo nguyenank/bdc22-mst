@@ -19,7 +19,7 @@ pd.set_option('precision', 5)
 
 
 ## Residual Data Cleaning
-unflipped_df = pd.read_csv("all_powerplays_4-13-22_danger_situations_ozone.csv") #24 of 35 powerplays included, replace with 4-21 data asap
+unflipped_df = pd.read_csv("all_powerplays_4-23-22_cleaned_updated.csv") #24 of 35 powerplays included, replace with 4-21 data asap
 unflipped_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
 
 #finding columns of x and y coordinates as well as positions
@@ -40,7 +40,7 @@ df_w_ind_vars = hockey_mst.ind_var_calculation(df, x_cols, y_cols, positions)
 
 ##Model Development
 
-vars = ["high_danger_within_four","distance_to_attacking_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR"]
+vars = ["high_danger_within_four","distance_to_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR", "angle_to_attacking_net"]
 ind_vars = copy.deepcopy(vars) #["distance_to_attacking_net","All_Avg_Edge", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge", "D_Total_Edge", "OD_MST_Ratio", "All_OCR"]
 ind_vars.remove("high_danger_within_four")
 #unused:
