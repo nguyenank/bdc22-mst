@@ -52,7 +52,7 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
     x, y = split_data(game_df=game_df)
 
     print(len(y[y == 1]), " successes", sep="")
-    print(len(y[y == 0]), " not successes", sep="")
+    print(len(y[y == 0]), " not successes\n", sep="")
 
     x_w_inter, new_names, inter_vars_raw = get_interactions(x = x)
     # Carlie, run the code above and this line below and it shows that there are negative values
@@ -105,14 +105,17 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
     mse = mean_squared_error(y_train, pred_train)
     # print("The mean squared error (MSE) on train set: {:.4f}".format(mse))
     # print("Logistic Regression Score: ", model1_log.score(x_train, y_train))
-    print("Logistic Regression Score for Test Set: ",
+    print(
+        "\nLogistic Regression Score for Test Set: ",
             round(model1_log.score(x_test, y_test), 4),
         "\nTest set Confusion Matrix:\n", 
             confusion_matrix(y_test, model1_log.predict(x_test)),
         "\nLogistic Regression Score for Training Set: ",
             round(model1_log.score(x_train, y_train), 4),
         "\nTraining set Confusion Matrix:\n", 
-            confusion_matrix(y_train, model1_log.predict(x_train)))
+            confusion_matrix(y_train, model1_log.predict(x_train)),
+        "\n"
+        )
 
     #Calculate the probability scores of each point in the training set
     y_train_score = model1_log.decision_function(x_train)

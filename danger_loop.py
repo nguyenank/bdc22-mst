@@ -1,11 +1,18 @@
 import pandas as pd
-import numpy as np
-from tqdm import tqdm
-import random
+# import numpy as np
+# from tqdm import tqdm
+# import random
 from danger_model import get_model
 
 import warnings
 warnings.filterwarnings("ignore")
+
+data=pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv")
+get_model(data=data, p = 0.250, weight=1, r= 500)
+
+# res = pd.read_csv('results.csv')
+
+# res[(res.auc_value.notna()) & (res.prop <= 0.3)].sort_values(by = ['test_score', 'auc_value'], ascending=[False, False]).head(15)
 # BAD coding practice but I do like my pretty loops
 
 # weight = pd.DataFrame(np.linspace(1, 2.5, num = 16), columns=['wt'])
@@ -51,7 +58,7 @@ warnings.filterwarnings("ignore")
 
 res = pd.read_csv('results.csv')
 
-res[(res.auc_value.notna()) & (res.prop <= 0.3)].sort_values(by = ['test_score', 'auc_value'], ascending=[False, False]).head(15)
+# res[(res.auc_value.notna()) & (res.prop <= 0.3)].sort_values(by = ['test_score', 'auc_value'], ascending=[False, False]).head(15)
 
 data=pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv")
 get_model(data=data, p = 0.250, weight=1, r= 500)
