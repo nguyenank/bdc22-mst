@@ -23,14 +23,14 @@ def data_partition(game_df, type = "over", prop = 0.4):
     no = len(game_df[game_df.high_danger_within_four == 0])
     yes = len(game_df[game_df.high_danger_within_four == 1])
 
-    samp_from = game_df[game_df.high_danger_within_four == 1]
-    other = game_df[game_df.high_danger_within_four == 0]
+    new_samples = pd.DataFrame(columns=vars)
+
 
     if type == "over":
+        samp_from = game_df[game_df.high_danger_within_four == 1]
+        other = game_df[game_df.high_danger_within_four == 0]
+        
         goal = round((prop * no) / (1 - prop))
-
-        new_samples = pd.DataFrame(columns=vars)
-
         random.seed(1423)
 
         for i in range(1, (goal + 1) - yes):
@@ -40,7 +40,15 @@ def data_partition(game_df, type = "over", prop = 0.4):
 
         # print(i)
     elif type == "under":
-        
+        samp_from = game_df[game_df.high_danger_within_four == 0]
+        other = game_df[game_df.high_danger_within_four == 1]
+
+        goal = round((yes / prop) - yes)
+        random.seed(1234)
+
+        for i in range(1, (goal + 1)):
+            s = samp_from.sample()
+            new_samples = new_samples.append(s, ignore_index=True)
 
     # plt.hist(x = new_samples.O_Total_Edge)
     # plt.show()

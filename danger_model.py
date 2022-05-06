@@ -17,11 +17,6 @@ from hockey_rink import BDCRink
 # Modeling Packages/Functions
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.feature_selection import (
-    SelectKBest,
-    chi2
-)
 from sklearn.metrics import (
     mean_squared_error,
     confusion_matrix,
@@ -39,6 +34,8 @@ from data_partition import (
     resample_data,
     data_partition
     ) # re-sample to bring 0/1 classes to roughly even (or preferred proportion)
+from get_interactions import get_interactions
+from variable_selection import variable_selection
 
 # editing display options
 plt.rcParams["font.family"] = "Consolas"
@@ -47,25 +44,12 @@ pd.set_option('precision', 5)
 game_df = prepare_data(game_df=pd.read_csv("all_powerplays_4-23-22_cleaned_final.csv"))
 # game_df = game_df[game_df.angle_to_attacking_net > 0]
 # game_df.high_danger_within_four.value_counts()
-game_df = data_partition(game_df=game_df, prop=0.25)
+game_df = data_partition(game_df=game_df, type='under', prop=0.25)
 # game_df.high_danger_within_four.value_counts() # fun to compare lol
 x, y = split_data(game_df=game_df)
 
 print(len(y[y == 1]), " successes", sep="")
 print(len(y[y == 0]), " not successes", sep="")
-
-def get_interactions(x): 
-    interactions = PolynomialFeatures(interaction_only=True, include_bias=True)
-    x_w_inter = interactions.fit_transform(X=x)
-    inter_vars_raw = interactions.get_feature_names_out()
-
-    new_names = []
-
-    for i in inter_vars_raw:
-        n = i.replace(' ', '_')
-        new_names.append(n)
-
-    return x_w_inter, new_names, inter_vars_raw
 
 x_w_inter, new_names, inter_vars_raw = get_interactions(x = x)
 # Carlie, run the code above and this line below and it shows that there are negative values
@@ -77,27 +61,13 @@ x_w_inter, new_names, inter_vars_raw = get_interactions(x = x)
 # x_df.loc[:, x_df.columns.str.endswith('attacking_net')]
 # (x_w_inter < 0).any(0)
 
-def variable_selection(x_w_inter, y, new_names, k = 40):
-    new_names = np.array(new_names)
-
-    selection = SelectKBest(chi2, k = k)
-    trans_x = selection.fit_transform(x_w_inter, y)
-    raw_selected_names = new_names[selection.get_support()]
-
-    raw_names = []
-
-    for i in raw_selected_names:
-        raw_names.append(i)
-
-    return trans_x, raw_names
-
 trans_x, raw_names = variable_selection(x_w_inter=x_w_inter, y = y, new_names=new_names)
 
 x_train, x_test, y_train, y_test = train_test_split(trans_x, y, test_size=0.2, random_state=366)
 
-test = pd.DataFrame(x_test).join(y_test.reset_index(drop = True)).drop_duplicates()
-x_test = np.array(test.drop(columns=['high_danger_within_four']))
-y_test = test['high_danger_within_four']
+# test = pd.DataFrame(x_test).join(y_test.reset_index(drop = True)).drop_duplicates()
+# x_test = np.array(test.drop(columns=['high_danger_within_four']))
+# y_test = test['high_danger_within_four']
 # x_test = np.array(pd.DataFrame(x_test).drop_duplicates())
 # y_test.reset_index(drop = True)
 
