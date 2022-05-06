@@ -51,8 +51,8 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
     # game_df.high_danger_within_four.value_counts() # fun to compare lol
     x, y = split_data(game_df=game_df)
 
-    print(len(y[y == 1]), " successes", sep="")
-    print(len(y[y == 0]), " not successes", sep="")
+    # print(len(y[y == 1]), " successes", sep="")
+    # print(len(y[y == 0]), " not successes", sep="")
 
     x_w_inter, new_names, inter_vars_raw = get_interactions(x = x)
     # Carlie, run the code above and this line below and it shows that there are negative values
@@ -83,7 +83,7 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
         key: None for key in raw_names
     }
     model1_log.coef_[0]
-    print(feature_dict)
+    # print(feature_dict)
     m = 0
     for feature in feature_dict:
         if feature == 'intercept':
@@ -96,15 +96,15 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
 
     pred1 = model1_log.predict(x_test)
     mse = mean_squared_error(y_test, pred1)
-    print("The mean squared error (MSE) on test set: {:.4f}".format(mse))
-    print("Logistic Regression Score: ", model1_log.score(x_test, y_test))
-    print(confusion_matrix(y_test, model1_log.predict(x_test)))
+    # print("The mean squared error (MSE) on test set: {:.4f}".format(mse))
+    # print("Logistic Regression Score: ", model1_log.score(x_test, y_test))
+    # print(confusion_matrix(y_test, model1_log.predict(x_test)))
 
     pred_train = model1_log.predict(x_train)
     mse = mean_squared_error(y_train, pred_train)
-    print("The mean squared error (MSE) on train set: {:.4f}".format(mse))
-    print("Logistic Regression Score: ", model1_log.score(x_train, y_train))
-    print(confusion_matrix(y_train, model1_log.predict(x_train)))
+    # print("The mean squared error (MSE) on train set: {:.4f}".format(mse))
+    # print("Logistic Regression Score: ", model1_log.score(x_train, y_train))
+    # print(confusion_matrix(y_train, model1_log.predict(x_train)))
 
     #Calculate the probability scores of each point in the training set
     y_train_score = model1_log.decision_function(x_train)

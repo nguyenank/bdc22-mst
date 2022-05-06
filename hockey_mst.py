@@ -61,7 +61,7 @@ def mst_properties(player_positions, player_teams=None):
 
 def ind_var_calculation(df, x_cols, y_cols, positions):
     #MST variable calculations
-    for i in tqdm(range(len(df))):
+    for i in range(len(df)):
         x_coords = df[x_cols].iloc[i]
         y_coords = df[y_cols].iloc[i]
 
