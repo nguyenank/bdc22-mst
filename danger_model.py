@@ -41,7 +41,7 @@ from helper_functions.variable_selection import variable_selection
 plt.rcParams["font.family"] = "Consolas"
 pd.set_option('precision', 5)
 
-# pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv")
+# data = pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv")
 
 def get_model(data, p = 0.275, weight = 1, r = 500):
     game_df = prepare_data(game_df=data)
@@ -51,8 +51,8 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
     # game_df.high_danger_within_four.value_counts() # fun to compare lol
     x, y = split_data(game_df=game_df)
 
-    # print(len(y[y == 1]), " successes", sep="")
-    # print(len(y[y == 0]), " not successes", sep="")
+    print(len(y[y == 1]), " successes", sep="")
+    print(len(y[y == 0]), " not successes", sep="")
 
     x_w_inter, new_names, inter_vars_raw = get_interactions(x = x)
     # Carlie, run the code above and this line below and it shows that there are negative values
@@ -98,13 +98,21 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
     mse = mean_squared_error(y_test, pred1)
     # print("The mean squared error (MSE) on test set: {:.4f}".format(mse))
     # print("Logistic Regression Score: ", model1_log.score(x_test, y_test))
-    # print(confusion_matrix(y_test, model1_log.predict(x_test)))
+    # print("\nTest set Confusion Matrix:", 
+            # confusion_matrix(y_test, model1_log.predict(x_test)))
 
     pred_train = model1_log.predict(x_train)
     mse = mean_squared_error(y_train, pred_train)
     # print("The mean squared error (MSE) on train set: {:.4f}".format(mse))
     # print("Logistic Regression Score: ", model1_log.score(x_train, y_train))
-    # print(confusion_matrix(y_train, model1_log.predict(x_train)))
+    print("Logistic Regression Score for Test Set: ",
+            round(model1_log.score(x_test, y_test), 4),
+        "\nTest set Confusion Matrix:\n", 
+            confusion_matrix(y_test, model1_log.predict(x_test)),
+        "\nLogistic Regression Score for Training Set: ",
+            round(model1_log.score(x_train, y_train), 4),
+        "\nTraining set Confusion Matrix:\n", 
+            confusion_matrix(y_train, model1_log.predict(x_train)))
 
     #Calculate the probability scores of each point in the training set
     y_train_score = model1_log.decision_function(x_train)
@@ -119,27 +127,27 @@ def get_model(data, p = 0.275, weight = 1, r = 500):
     test_score = model1_log.score(x_test, y_test)
     train_score = model1_log.score(x_train, y_train)
 
-    return weight, p, r, auc_val, test_score, train_score
+    #ROC Curve
+    sns.lineplot(test_fpr, test_tpr, color='darkorange', lw=1, label='ROC curve', ci=False)
+    plt.legend(loc = 'lower right')
+    plt.title("AUC "+str(auc(test_fpr,test_tpr)))
+    plt.plot([0, 1], [0, 1],'r--')
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
 
+    #Precision Recall Curves for testing and training sets
+    display = PrecisionRecallDisplay.from_predictions(y_test, y_test_score, name="Log")
+    plt.title("Testing Set 2-class Precision-Recall curve")
+    plt.plot([1, 0], [0, 1],'r--')
+    plt.show()
 
-# #ROC Curve
-# sns.lineplot(test_fpr, test_tpr, color='darkorange', lw=1, label='ROC curve', ci=False)
-# plt.legend(loc = 'lower right')
-# plt.title("AUC "+str(auc(test_fpr,test_tpr)))
-# plt.plot([0, 1], [0, 1],'r--')
-# plt.xlim([0, 1])
-# plt.ylim([0, 1])
-# plt.ylabel('True Positive Rate')
-# plt.xlabel('False Positive Rate')
-# plt.show()
+    display = PrecisionRecallDisplay.from_predictions(y_train, y_train_score, name="Log")
+    plt.title("Training Set 2-class Precision-Recall curve")
+    plt.plot([1, 0], [0, 1],'r--')
+    plt.show()
 
-# #Precision Recall Curves for testing and training sets
-# display = PrecisionRecallDisplay.from_predictions(y_test, y_test_score, name="Log")
-# plt.title("Testing Set 2-class Precision-Recall curve")
-# plt.plot([1, 0], [0, 1],'r--')
-# plt.show()
-
-# display = PrecisionRecallDisplay.from_predictions(y_train, y_train_score, name="Log")
-# plt.title("Training Set 2-class Precision-Recall curve")
-# plt.plot([1, 0], [0, 1],'r--')
-# plt.show()
+    # return weight, p, r, auc_val, test_score, train_score
+    return print("\nNice job!")

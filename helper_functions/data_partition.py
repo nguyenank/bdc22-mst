@@ -51,7 +51,7 @@ def data_partition(game_df, type = "over", prop = 0.4):
 
         for i in range(1, (goal + 1)):
             # print(i)
-            s = samp_from.sample()
+            s = samp_from.sample(random_state = i)
             new_samples = new_samples.append(s, ignore_index=True)
             
             data = other.append(new_samples, ignore_index = True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
