@@ -9,7 +9,7 @@ def split_data(game_df):
     splits data into X, y sets"""
     
     vars = ['high_danger_within_four', 
-            'distance_to_net', 
+            'distance_to_attacking_net', 
             'all_avg_edge',
             'all_total_edge', 
             'o_avg_edge', 

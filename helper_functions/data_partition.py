@@ -5,7 +5,7 @@ import random
 def data_partition(game_df, type = "over", prop = 0.4):
 
     vars = ["high_danger_within_four",
-            "distance_to_net", 
+            "distance_to_attacking_net", 
             "All_Avg_Edge", 
             "All_Total_Edge",
             "O_Avg_Edge",
@@ -24,7 +24,6 @@ def data_partition(game_df, type = "over", prop = 0.4):
     yes = len(game_df[game_df.high_danger_within_four == 1])
 
     new_samples = pd.DataFrame(columns=vars)
-
 
     if type == "over":
         samp_from = game_df[game_df.high_danger_within_four == 1]

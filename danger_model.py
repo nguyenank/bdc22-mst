@@ -28,20 +28,20 @@ from sklearn.metrics import (
 # Custom-built functions
 import hockey_mst
 # from modelling_and_plotting import X_w_inter # applies the MST calculations to a given dataframe
-from prepare_data import prepare_data # function that preps the dataframe for the hockey_mst function
-from split_data import split_data # splits data into variables + target
-from data_partition import (
+from helper_functions.prepare_data import prepare_data # function that preps the dataframe for the hockey_mst function
+from helper_functions.split_data import split_data # splits data into variables + target
+from helper_functions.data_partition import (
     resample_data,
     data_partition
     ) # re-sample to bring 0/1 classes to roughly even (or preferred proportion)
-from get_interactions import get_interactions
-from variable_selection import variable_selection
+from helper_functions.get_interactions import get_interactions
+from helper_functions.variable_selection import variable_selection
 
 # editing display options
 plt.rcParams["font.family"] = "Consolas"
 pd.set_option('precision', 5)
 
-game_df = prepare_data(game_df=pd.read_csv("all_powerplays_4-23-22_cleaned_final.csv"))
+game_df = prepare_data(game_df=pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv"))
 # game_df = game_df[game_df.angle_to_attacking_net > 0]
 # game_df.high_danger_within_four.value_counts()
 game_df = data_partition(game_df=game_df, type='under', prop=0.25)
