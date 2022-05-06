@@ -1,3 +1,4 @@
+from os import unlink
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,9 +20,10 @@ pd.set_option('precision', 5)
 
 
 ## Residual Data Cleaning
-unflipped_df = pd.read_csv("all_powerplays_4-23-22_cleaned_updated.csv") #24 of 35 powerplays included, replace with 4-21 data asap
+unflipped_df = pd.read_csv("data/all_powerplays_4-23-22_cleaned_trimmed.csv") #24 of 35 powerplays included, replace with 4-21 data asap
 unflipped_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
-
+unflipped_df['high_danger_within_four'] = unflipped_df['assumed_danger_states']
+unflipped_df['angle_to_attacking_net'] = unflipped_df['angle_to_attacking_net'] + 180
 #finding columns of x and y coordinates as well as positions
 x_cols = ['away_x_1', 'away_x_2','away_x_3', 'away_x_4','away_x_5', 'away_x_6','away_x_7','home_x_1', 'home_x_2','home_x_3', 'home_x_4','home_x_5', 'home_x_6','home_x_7']
 y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7']
@@ -40,7 +42,7 @@ df_w_ind_vars = hockey_mst.ind_var_calculation(df, x_cols, y_cols, positions)
 
 ##Model Development
 
-vars = ["high_danger_within_four","distance_to_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR", "angle_to_attacking_net"]
+vars = ["high_danger_within_four", "distance_to_net", "All_Avg_Edge", "All_Total_Edge","O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge","D_Total_Edge","OD_MST_Ratio", "All_OCR", "angle_to_attacking_net"]
 ind_vars = copy.deepcopy(vars) #["distance_to_attacking_net","All_Avg_Edge", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player", "D_Avg_Edge", "D_Total_Edge", "OD_MST_Ratio", "All_OCR"]
 ind_vars.remove("high_danger_within_four")
 #unused:
@@ -155,17 +157,17 @@ plt.title("Training Set 2-class Precision-Recall curve")
 plt.plot([1, 0], [0, 1],'r--')
 plt.show()
 
-raw_coord_pairs = np.array([x_coords,y_coords]).T
-raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
-home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
-home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
-df_all_no_na['clock_seconds'].iloc[358]
-df_all_no_na["venue"].iloc[358]
-df_all_no_na["D MST"].iloc[358]
-df_all_no_na[x_cols].iloc[358]
-df_all_no_na[y_cols].iloc[360]
+# raw_coord_pairs = np.array([x_coords,y_coords]).T
+# raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
+# home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
+# home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+# df_all_no_na['clock_seconds'].iloc[358]
+# df_all_no_na["venue"].iloc[358]
+# df_all_no_na["D MST"].iloc[358]
+# df_all_no_na[x_cols].iloc[358]
+# df_all_no_na[y_cols].iloc[360]
 
-df_all_no_na[positions].iloc[276]
+# df_all_no_na[positions].iloc[276]
 
 ## Plotting, still fiddling with this
 for i in [278,71,37,12]:
