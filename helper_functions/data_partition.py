@@ -37,6 +37,10 @@ def data_partition(game_df, type = "over", prop = 0.4):
             s = samp_from.sample()
             new_samples = new_samples.append(s, ignore_index=True)
 
+            data = samp_from.append(new_samples, ignore_index=True)
+            data = data.append(other, ignore_index=True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
+
+
         # print(i)
     elif type == "under":
         samp_from = game_df[game_df.high_danger_within_four == 0]
@@ -46,16 +50,17 @@ def data_partition(game_df, type = "over", prop = 0.4):
         random.seed(1234)
 
         for i in range(1, (goal + 1)):
+            # print(i)
             s = samp_from.sample()
             new_samples = new_samples.append(s, ignore_index=True)
+            
+            data = other.append(new_samples, ignore_index = True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
 
     # plt.hist(x = new_samples.O_Total_Edge)
     # plt.show()
 
     # plt.hist(x = samp_from.O_Total_Edge)
     # plt.show()
-    data = samp_from.append(new_samples, ignore_index=True)
-    data = data.append(other, ignore_index=True).sample(frac = 1).sample(frac = 1).reset_index(drop = True)
 
     # X = data[ind_vars].reset_index().drop(columns = ['index'])
     # y = data['high_danger_within_four'].astype(int)
