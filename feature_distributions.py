@@ -45,7 +45,7 @@ plt.savefig('distribution_plots/off_def_mst_ratio.png')
 plt.clf()
 
 sns.histplot(data=data, x = 'all_ocr').set(title = "Opponent Connection Distribution")
-plt.savefig('distribution_plots/avg_offense_edge_player.png')
+plt.savefig('distribution_plots/all_ocr.png')
 plt.clf()
 
 sns.histplot(data=data, x = 'angle_to_attacking_net').set(title = "Angle to Net Distribution")
