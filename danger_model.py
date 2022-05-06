@@ -43,11 +43,11 @@ pd.set_option('precision', 5)
 
 # data = pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv")
 
-def get_model(data, p = 0.275, weight = 1, r = 500):
+def get_model(data, weight = 1, r = 500):
     game_df = prepare_data(game_df=data)
     # game_df = game_df[game_df.angle_to_attacking_net > 0]
     # game_df.high_danger_within_four.value_counts()
-    game_df = data_partition(game_df=game_df, type='under', prop=p)
+    # game_df = data_partition(game_df=game_df, type='under', prop=p)
     # game_df.high_danger_within_four.value_counts() # fun to compare lol
     x, y = split_data(game_df=game_df)
 
