@@ -12,6 +12,7 @@ from hockey_rink import BDCRink
 import hockey_mst
 from sklearn.metrics import PrecisionRecallDisplay
 import json
+from sklearn.dummy import DummyClassifier
 
 #display stuff
 plt.rcParams["font.family"] = "Consolas"
@@ -19,9 +20,9 @@ pd.set_option('precision', 5)
 
 
 ## Residual Data Cleaning
-unflipped_df = pd.read_csv('C:/Users/carli/Documents/Hockey Research/BDC/2022/bdc22-mst/all_powerplays_4-13-22_danger_situations_ozone.csv') #24 of 35 powerplays included, replace with 4-21 data asap
+unflipped_df = pd.read_csv('all_powerplays_4-23-22_cleaned_trimmed.csv') #24 of 35 powerplays included, replace with 4-21 data asap
 unflipped_df[["O Players","D Players","All MST","All_Avg_Edge","All_Total_Edge","All_Avg_Edges per Player","O MST", "O_Avg_Edge","O_Total_Edge","O_Avg_Edges_per_Player","D MST", "D_Avg_Edge","D_Total_Edge","D_Avg_Edges per Player", "OD_MST_Ratio", "All_OCR"]] = None
-
+unflipped_df['high_danger_within_four'] = unflipped_df['assumed_danger_states']
 #finding columns of x and y coordinates as well as positions
 x_cols = ['away_x_1', 'away_x_2','away_x_3', 'away_x_4','away_x_5', 'away_x_6','away_x_7','home_x_1', 'home_x_2','home_x_3', 'home_x_4','home_x_5', 'home_x_6','home_x_7']
 y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7']
@@ -70,7 +71,7 @@ X_w_inter = interactions.fit_transform(X)
 new_ind_vars_raw = interactions.get_feature_names_out()
 
 #variable selection - honestly not the best variable selection method but it's the one I can do without fucking up the data and retaining variable names to give to An
-selection = SelectKBest(chi2, k=40)
+selection = SelectKBest(chi2, k=45)
 trans_X = selection.fit_transform(X_w_inter, y) #k should be somewhere between 40 and 60 otherwise model is :(
 selected_feature_names_raw = new_ind_vars_raw[selection.get_support()]
 selected_feature_names = []
@@ -82,7 +83,7 @@ for i in selected_feature_names_raw:
 X_train, X_test, y_train, y_test = train_test_split(trans_X, y, test_size=0.2, random_state=366)
 
 #applying logistic model to training data
-model1_log = linear_model.LogisticRegression(solver='liblinear',max_iter=10000, class_weight = {0:1, 1:2.5}, random_state=43)
+model1_log = linear_model.LogisticRegression(solver='liblinear', penalty='l1', max_iter=10000, class_weight = {0:1, 1:2.85}, random_state=43)
 model1_log.fit(X_train,y_train)
 
 #get features selected by SelectKBest and also their coefficients in the model to put in saved json object
@@ -105,6 +106,15 @@ with open("feature_dict.json", "w") as outfile:
 
 ##Model Evalution
 #MSE, Score, and Confusion matrix for train and test data
+dummy_clf = DummyClassifier(random_state=123, strategy='stratified')
+dummy_clf.fit(X_train,y_train)
+dpred = dummy_clf.predict(X_test)
+
+# mean_squared_error(test_y, dpred)
+# print("Logistic Regression Score for dummy: ", dummy_clf.score(train_y, test_y))
+d = pd.DataFrame(y_test.reset_index(drop = True)).join(pd.DataFrame(dpred, columns=['pred']))
+confusion_matrix(d.high_danger_within_four, d.pred)
+
 pred1 = model1_log.predict(X_test)
 mse = mean_squared_error(y_test, pred1)
 print("The mean squared error (MSE) on test set: {:.4f}".format(mse))
@@ -155,17 +165,17 @@ plt.title("Training Set 2-class Precision-Recall curve")
 plt.plot([1, 0], [0, 1],'r--')
 plt.show()
 
-raw_coord_pairs = np.array([x_coords,y_coords]).T
-raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
-home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
-home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
-df_all_no_na['clock_seconds'].iloc[358]
-df_all_no_na["venue"].iloc[358]
-df_all_no_na["D MST"].iloc[358]
-df_all_no_na[x_cols].iloc[358]
-df_all_no_na[y_cols].iloc[360]
+# raw_coord_pairs = np.array([x_coords,y_coords]).T
+# raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
+# home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
+# home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+# df_all_no_na['clock_seconds'].iloc[358]
+# df_all_no_na["venue"].iloc[358]
+# df_all_no_na["D MST"].iloc[358]
+# df_all_no_na[x_cols].iloc[358]
+# df_all_no_na[y_cols].iloc[360]
 
-df_all_no_na[positions].iloc[276]
+# df_all_no_na[positions].iloc[276]
 
 ## Plotting, still fiddling with this
 for i in [278,71,37,12]:
