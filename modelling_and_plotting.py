@@ -83,7 +83,7 @@ for i in selected_feature_names_raw:
 X_train, X_test, y_train, y_test = train_test_split(trans_X, y, test_size=0.2, random_state=366)
 
 #applying logistic model to training data
-model1_log = linear_model.LogisticRegression(solver='liblinear', penalty='l1', max_iter=10000, class_weight = {0:1, 1:2.85}, random_state=43)
+model1_log = linear_model.LogisticRegression(solver='liblinear', penalty='l1', max_iter=10000, class_weight = {0:1, 1:3.5}, random_state=43)
 model1_log.fit(X_train,y_train)
 
 #get features selected by SelectKBest and also their coefficients in the model to put in saved json object
