@@ -49,19 +49,45 @@ def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
     # gonna want to comment this out lmao
     game_df['angle'] = 1
 
-    x_cols = ['away_x_1', 'away_x_2','away_x_3', 'away_x_4','away_x_5', 'away_x_6','away_x_7','home_x_1', 'home_x_2','home_x_3', 'home_x_4','home_x_5', 'home_x_6','home_x_7']
-    y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7']
-    positions = ['away_position_1', 'away_position_2','away_position_3', 'away_position_4','away_position_5', 'away_position_6','away_position_7','home_position_1', 'home_position_2','home_position_3', 'home_position_4','home_position_5', 'home_position_6','home_position_7']
+    player_names = ['away_player_1', 'away_player_2','away_player_3', 'away_player_4','away_player_5', 'away_player_6','away_player_7','away_player_8','home_player_1', 'home_player_2','home_player_3', 'home_player_4','home_player_5', 'home_player_6','home_player_7','away_player_8']
+
+    #adding to coordinate set players that are in the event log but not in the tracking data
+    for i in range(len(game_df)):
+        event_player_1 = game_df['player_name'].iloc[i]
+        event_player_2 = game_df['player_name_2'].iloc[i]
+        if (event_player_1 not in game_df[player_names].iloc[i]):
+            if game_df['venue'].iloc[i] == "away":
+                game_df['away_position_7'].iloc[i] = 'Player'
+                game_df['away_x_7'].iloc[i] = float(game_df['x_coord'].iloc[i])
+                game_df['away_y_7'].iloc[i] = float(game_df['y_coord'].iloc[i])
+            else:
+                game_df['home_position_7'].iloc[i] = 'Player'
+                game_df['home_x_7'].iloc[i] = float(game_df['x_coord'].iloc[i])
+                game_df['home_y_7'].iloc[i] = float(game_df['y_coord'].iloc[i])
+        if (event_player_2 not in game_df[player_names].iloc[i]):
+            if game_df['venue'].iloc[i] == "away":
+                game_df['away_position_8'].iloc[i] = 'Player'
+                game_df['away_x_8'].iloc[i] = float(game_df['x_coord_2'].iloc[i])
+                game_df['away_y_8'].iloc[i] = float(game_df['y_coord_2'].iloc[i])
+            else:
+                game_df['home_position_8'].iloc[i] = 'Player'
+                game_df['home_x_8'].iloc[i] = float(game_df['x_coord_2'].iloc[i])
+                game_df['home_y_8'].iloc[i] = float(game_df['y_coord_2'].iloc[i])
+    #finding columns of x and y coordinates as well as positions
+    x_cols = ['away_x_1', 'away_x_2','away_x_3', 'away_x_4','away_x_5', 'away_x_6','away_x_7','away_x_8','home_x_1', 'home_x_2','home_x_3', 'home_x_4','home_x_5', 'home_x_6','home_x_7','home_x_8']
+    y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','away_y_8','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7','home_y_8']
+    positions = ['away_position_1', 'away_position_2','away_position_3', 'away_position_4','away_position_5', 'away_position_6','away_position_7','away_position_8','home_position_1', 'home_position_2','home_position_3', 'home_position_4','home_position_5', 'home_position_6','home_position_7','home_position_8']
+
     vars = ["high_danger_within_four",
-            "distance_to_attacking_net", 
-            "All_Avg_Edge", 
+            "distance_to_attacking_net",
+            "All_Avg_Edge",
             "All_Total_Edge",
             "O_Avg_Edge",
             "O_Total_Edge",
-            "O_Avg_Edges_per_Player", 
+            "O_Avg_Edges_per_Player",
             "D_Avg_Edge",
             "D_Total_Edge",
-            "OD_MST_Ratio", 
+            "OD_MST_Ratio",
             "All_OCR"]
 
     df = copy.deepcopy(game_df)
@@ -164,8 +190,8 @@ sm = SMOTE(random_state=123)
 x_train_res, y_train_res = sm.fit_resample(train_x, test_x.ravel())
 
 param = [{
-    'C': [10**-2,10**-1,10**0,10**1,10**2,10**3], 
-    'penalty': ['l1'], 
+    'C': [10**-2,10**-1,10**0,10**1,10**2,10**3],
+    'penalty': ['l1'],
     'tol': [10**-6, 10**-5, 10**-4, 10**-3, 10**-2, 10**-1, 10**0, 10**1, 10**2, 10**3]
 }]
 lr_model = LogisticRegression(solver='liblinear', max_iter=10000, random_state=123)
