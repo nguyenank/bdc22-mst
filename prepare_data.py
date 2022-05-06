@@ -33,7 +33,7 @@ def prepare_data(game_df: pd.DataFrame) -> tuple[pd.DataFrame]:
     y_cols = ['away_y_1', 'away_y_2','away_y_3', 'away_y_4','away_y_5', 'away_y_6','away_y_7','home_y_1', 'home_y_2','home_y_3', 'home_y_4','home_y_5', 'home_y_6','home_y_7']
     positions = ['away_position_1', 'away_position_2','away_position_3', 'away_position_4','away_position_5', 'away_position_6','away_position_7','home_position_1', 'home_position_2','home_position_3', 'home_position_4','home_position_5', 'home_position_6','home_position_7']
     vars = ["high_danger_within_four",
-            "distance_to_net", 
+            "distance_to_attacking_net", 
             "All_Avg_Edge", 
             "All_Total_Edge",
             "O_Avg_Edge",

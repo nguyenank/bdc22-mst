@@ -1,18 +1,18 @@
 import pandas as pd
+from prepare_data import prepare_data
 
-game_df=pd.read_csv("all_powerplays_4-23-22_cleaned_final.csv")
+game_df = prepare_data(game_df=pd.read_csv("all_powerplays_4-23-22_cleaned_final.csv"))
 
-vars = ["high_danger_within_four",
-        "distance_to_net", 
-        "All_Avg_Edge", 
-        "All_Total_Edge",
-        "O_Avg_Edge",
-        "O_Total_Edge",
-        "O_Avg_Edges_per_Player", 
-        "D_Avg_Edge",
-        "D_Total_Edge",
-        "OD_MST_Ratio", 
-        "All_OCR",
-        'angle_to_attacking_net']
+maxes = pd.DataFrame(game_df.drop(columns = ['high_danger_within_four']).max(axis = 0)).T
+mins = pd.DataFrame(game_df.drop(columns = ['high_danger_within_four']).min(axis = 0)).T
 
-game_df[vars]
+output = []
+
+maxes['type'] = 'maximum'
+mins['type'] = 'minimum'
+
+output.append(mins)
+output.append(maxes)
+
+output = pd.concat(output)
+output.to_csv(path_or_buf='variable_ranges/variable_ranges.csv', index=False)
