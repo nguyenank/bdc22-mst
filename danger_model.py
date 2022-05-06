@@ -44,7 +44,7 @@ pd.set_option('precision', 5)
 game_df = prepare_data(game_df=pd.read_csv("data/all_powerplays_4-23-22_cleaned_final.csv"))
 # game_df = game_df[game_df.angle_to_attacking_net > 0]
 # game_df.high_danger_within_four.value_counts()
-game_df = data_partition(game_df=game_df, type='under', prop=0.25)
+game_df = data_partition(game_df=game_df, type='under', prop=0.275)
 # game_df.high_danger_within_four.value_counts() # fun to compare lol
 x, y = split_data(game_df=game_df)
 
@@ -63,15 +63,16 @@ x_w_inter, new_names, inter_vars_raw = get_interactions(x = x)
 
 trans_x, raw_names = variable_selection(x_w_inter=x_w_inter, y = y, new_names=new_names)
 
-x_train, x_test, y_train, y_test = train_test_split(trans_x, y, test_size=0.2, random_state=366)
-
+x_train, x_test, y_train, y_test = train_test_split(trans_x, y, test_size=0.2, random_state=500)
+# 366 is a good random state
+# 500 is better at prop = 0.35 on under sample
 # test = pd.DataFrame(x_test).join(y_test.reset_index(drop = True)).drop_duplicates()
 # x_test = np.array(test.drop(columns=['high_danger_within_four']))
 # y_test = test['high_danger_within_four']
 # x_test = np.array(pd.DataFrame(x_test).drop_duplicates())
 # y_test.reset_index(drop = True)
 
-model1_log = linear_model.LogisticRegression(solver='liblinear', max_iter=10000, class_weight={0:1, 1:2}, penalty='l1', random_state=43)
+model1_log = linear_model.LogisticRegression(solver='liblinear', max_iter=10000, class_weight={0:1, 1:1.5}, penalty='l1', random_state=43)
 model1_log.fit(x_train, y_train)
 
 raw_names.append('intercept')
