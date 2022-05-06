@@ -8,7 +8,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 data=pd.read_csv("data/all_powerplays_4-23-22_cleaned_trimmed.csv")
-get_model(data=data, weight=1.25, r=500)
+get_model(data=data, weight=5, r=500)
 # 366 is solid
 # res = pd.read_csv('results.csv')
 
