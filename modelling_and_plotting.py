@@ -132,6 +132,18 @@ print("The mean squared error (MSE) on train set: {:.4f}".format(mse))
 print("Logistic Regression Score: ", model1_log.score(X_train, y_train))
 print(confusion_matrix(y_train, model1_log.predict(X_train)))
 
+print(
+    "\n---- MODEL RESULTS ----\n",
+    "-- DUMMY CLASSIFIER --\n",
+    confusion_matrix(d.high_danger_within_four, d.pred),
+    "\n-- LOGISTIC REGRESSION ON TEST DATA --\n",
+    "------ Confusion Matrix:\n", confusion_matrix(y_test, model1_log.predict(X_test)),
+    "\nREGRESSION SCORE: ", model1_log.score(X_test, y_test),
+    "\n-- LOGISTIC REGRESSION ON TRAINING DATA --\n",
+    "------ Confusion Matrix:\n", confusion_matrix(y_train, model1_log.predict(X_train)),
+        "\nREGRESSION SCORE: ", model1_log.score(X_train, y_train)
+)
+
 #honestly not sure what these graphs say but it makes sense to me?
 #sb.kdeplot(model1_log.predict_proba(X_test)[:,1], cut=0)
 #sb.kdeplot(model1_log.predict_proba(X_test)[:,0], cut=0)
