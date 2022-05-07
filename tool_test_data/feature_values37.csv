@@ -35,11 +35,11 @@ o_total_edge_o_avg_edges_per_player,82.96154850502533
 o_total_edge_d_avg_edge,1193.5388694205355
 o_total_edge_d_total_edge,3580.616608261607
 o_total_edge_od_mst_ratio,47.249688553426445
+o_total_edge_all_ocr,31.60439943048584
 o_avg_edges_per_player_d_avg_edge,32.36996541878115
 o_avg_edges_per_player_d_total_edge,97.10989625634345
 d_avg_edge_d_total_edge,1397.0862149507832
 d_avg_edge_od_mst_ratio,18.435899667783406
 d_avg_edge_all_ocr,12.331415397630913
-d_total_edge_od_mst_ratio,55.307699003350216
 d_total_edge_all_ocr,36.99424619289274
 od_mst_ratio_all_ocr,0.48817474812853634

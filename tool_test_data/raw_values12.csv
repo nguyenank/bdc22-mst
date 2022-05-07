@@ -206,7 +206,7 @@ home_player_19,
 home_position_19,
 home_x_19,
 home_y_19,
-O Players,3.0
+O Players,4.0
 D Players,5.0
 All MST,"[[ 0.          0.          0.          0.          0.          0.
    0.         17.16914666]
@@ -227,12 +227,13 @@ All MST,"[[ 0.          0.          0.          0.          0.          0.
 All_Avg_Edge,9.114374257208548
 All_Total_Edge,63.800619800459835
 All_Avg_Edges per Player,1.75
-O MST,"[[ 0.         17.38522965  0.        ]
- [ 0.          0.         21.82228315]
- [ 0.          0.          0.        ]]"
-O_Avg_Edge,19.60375639960855
-O_Total_Edge,39.2075127992171
-O_Avg_Edges_per_Player,1.3333333333333333
+O MST,"[[ 0.         17.38522965  0.          0.        ]
+ [ 0.          0.         21.82228315 14.21238282]
+ [ 0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.        ]]"
+O_Avg_Edge,17.806631873759045
+O_Total_Edge,53.419895621277135
+O_Avg_Edges_per_Player,1.5
 D MST,"[[ 0.          0.         11.703009    7.17374944 15.99890861]
  [ 0.          0.          0.          0.          0.        ]
  [ 0.          0.          0.          0.          0.        ]
@@ -241,6 +242,6 @@ D MST,"[[ 0.          0.         11.703009    7.17374944 15.99890861]
 D_Avg_Edge,10.282711638576643
 D_Total_Edge,41.13084655430657
 D_Avg_Edges per Player,1.6
-OD_MST_Ratio,1.9064773076065904
+OD_MST_Ratio,1.7317058476049885
 All_OCR,0.8571428571428571
 high_danger_within_four,1

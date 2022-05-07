@@ -113,7 +113,7 @@ def ind_var_calculation(df, x_cols, y_cols, positions):
                 df['D MST'].iloc[i],df['D_Avg_Edge'].iloc[i], df['D_Total_Edge'].iloc[i], df["D_Avg_Edges per Player"].iloc[i] = mst_properties(home_coord_pairs)
 
                 #excluding goalie and empty coordinate spots
-                raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[7:] == "Goalie")]
+                raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[:7] == "Goalie")]
                 away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
                 away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
                 df['O Players'].iloc[i] = len(away_coord_pairs)

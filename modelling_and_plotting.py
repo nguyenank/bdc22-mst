@@ -223,16 +223,22 @@ for i in [278,71,37,12]:
         raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
         home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
         home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+
+        print("Offensive")
+        print(home_coord_pairs)
         plotted = np.argwhere(df_all_no_na["O MST"].iloc[i] > 0)
         for m in plotted:
             j,k = m
             rink.arrow(home_coord_pairs[j,0],home_coord_pairs[j,1],home_coord_pairs[k,0],home_coord_pairs[k,1], color= 'lightgreen')
-        rink.scatter(df_all_no_na['x_coord'].iloc[i],y_coord, label = "Puck Location", c='black', s=200, ax = ax)
+        rink.scatter(df_all_no_na['x_coord'].iloc[i],df_all_no_na['y_coord'].iloc[i], label = "Puck Location", c='black', s=200, ax = ax,zorder=102)
         rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=160, ax = ax,edgecolors='black',zorder=101)
 
         raw_away_coord_pairs = raw_coord_pairs[:7]#[~(player_role[7:] == "Goalie")]
         away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
         away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
+
+        print("Defensive")
+        print(away_coord_pairs)
         plotted = np.argwhere(df_all_no_na["D MST"].iloc[i] > 0)
         for m in plotted:
             j,k = m
@@ -243,25 +249,31 @@ for i in [278,71,37,12]:
         raw_home_coord_pairs = raw_coord_pairs[7:]#[~(player_role[7:] == "Goalie")]
         home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
         home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+        print("Defensive")
+        print(home_coord_pairs)
         plotted = np.argwhere(df_all_no_na["D MST"].iloc[i] > 0)
         for m in plotted:
             j,k = m
             rink.arrow(home_coord_pairs[j,0],home_coord_pairs[j,1],home_coord_pairs[k,0],home_coord_pairs[k,1], color= 'darkorange')
         rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Defensive", c='darkorange', s=160, ax=ax,edgecolors='black',zorder=101)
 
-        raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[7:] == "Goalie")]
+        raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[:7] == "Goalie")]
         away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
         away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
 
+        print("Offensive")
+        print(away_coord_pairs)
         plotted = np.argwhere(df_all_no_na["O MST"].iloc[i] > 0)
+        print(plotted)
         for m in plotted:
             j,k = m
             rink.arrow(away_coord_pairs[j,0],away_coord_pairs[j,1],away_coord_pairs[k,0],away_coord_pairs[k,1], color= 'lightgreen')
-        rink.scatter(df_all_no_na['x_coord'].iloc[i],y_coord, label = "Puck Location",c='black', s=200, ax=ax,zorder=101)
+        rink.scatter(df_all_no_na['x_coord'].iloc[i],df_all_no_na['y_coord'].iloc[i], label = "Puck Location",c='black', s=200, ax=ax,zorder=102)
         rink.scatter(away_coord_pairs.T[0], away_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=160,ax=ax,edgecolors='black',zorder=101)
     plt.title("Game State "+str(i)+": Probability of a Dangerous Situation = "+str(prob)+'\n # of O Players: '+str(df_all_no_na['O Players'].iloc[i])+', # of D Players (with Goalie if present): '+str(df_all_no_na['D Players'].iloc[i]), fontsize = 20)
     leg = plt.legend(fontsize = 15)
     leg.set_zorder(120)
+
     plt.savefig(fname='./tool_test_data/Game_State_'+str(i)+'.png')
     features_coef.to_csv('./tool_test_data/feature_values'+str(i)+'.csv', header=False, index=False)
     df_all_no_na.iloc[i].to_csv('./tool_test_data/raw_values'+str(i)+'.csv', header=False, index=True)
