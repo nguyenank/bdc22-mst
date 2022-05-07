@@ -52,8 +52,10 @@ ind_vars.remove("high_danger_within_four")
 #fiddling around with the data to select the relevant dependent and independent variables in a way the relevant extraneous info can still be used when plotting on rinks
 df_all_no_na = df_w_ind_vars.fillna(value=np.nan).dropna(subset = vars) #df with all columns but with rows dropped where one of the modelling variables is NaN
 df_no_na = df_all_no_na[vars] #keeping only the relevant variables to modelling
+# df_no_na.columns = df_no_na.columns.str.strip().str.lower()
 X = df_no_na[ind_vars].reset_index().drop(columns='index') #keeping only the relevant independent variables to modelling
 y = df_no_na['high_danger_within_four'] #keeping only the relevant dependent variable to modelling
+X.columns = X.columns.str.strip().str.lower()
 
 #correlation matrix
 #corr_m = X.corr(method ='pearson')
@@ -89,6 +91,9 @@ model1_log.fit(X_train,y_train)
 #get features selected by SelectKBest and also their coefficients in the model to put in saved json object
 selected_feature_names.append('intercept')
 feature_dict = {key: None for key in selected_feature_names}
+# key = 'All_Avg_Edge'
+# key.lower()
+
 model1_log.coef_[0]
 print(feature_dict)
 m = 0
