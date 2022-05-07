@@ -95,6 +95,7 @@ feature_dict = {key: None for key in selected_feature_names}
 # key.lower()
 
 model1_log.coef_[0]
+model1_log.intercept_[0]
 print(feature_dict)
 m = 0
 for feature in feature_dict:
@@ -103,8 +104,11 @@ for feature in feature_dict:
     else:
         feature_dict[feature] = model1_log.coef_[0][m]
     m += 1
+print(feature_dict)
+
 with open("feature_dict.json", "w") as outfile:
     json.dump(feature_dict, outfile)
+
 #old way of getting features and values
 #features_coef = pd.DataFrame(np.array([selected_features, model1_log.coef_[0]]).T)
 #features_coef.to_csv('2022/bdc22-mst/features_coefficients.csv', header=False, index=False)
@@ -196,10 +200,6 @@ plt.show()
 
 ## Plotting, still fiddling with this
 for i in [278,71,37,12]:
-    if (i == 12) | (i == 71):
-        y_coord = 85-df_all_no_na['y_coord'].iloc[i]
-    else:
-        y_coord = df_all_no_na['y_coord'].iloc[i]
     x_coords = df_all_no_na[x_cols].iloc[i]
     y_coords = df_all_no_na[y_cols].iloc[i]
     raw_coord_pairs = np.array([x_coords,y_coords]).T
