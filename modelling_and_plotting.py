@@ -59,6 +59,9 @@ X = df_no_na[ind_vars].reset_index().drop(columns='index') #keeping only the rel
 y = df_no_na['high_danger_within_four'] #keeping only the relevant dependent variable to modelling
 X.columns = X.columns.str.strip().str.lower()
 
+test = pd.DataFrame(df_all_no_na.iloc[123].filter(regex = 'home_[x/y]')).reset_index()
+
+
 #correlation matrix
 #corr_m = X.corr(method ='pearson')
 #plt.figure(figsize=(40,40))
@@ -107,6 +110,13 @@ for feature in feature_dict:
         feature_dict[feature] = model1_log.coef_[0][m]
     m += 1
 print(feature_dict)
+
+df_all_no_na
+
+# col_names = selected_feature_names
+# col_names.remove('intercept')
+
+# pd.DataFrame(trans_X, columns=col_names)
 
 with open("feature_dict.json", "w") as outfile:
     json.dump(feature_dict, outfile)
