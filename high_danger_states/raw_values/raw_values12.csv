@@ -1,0 +1,247 @@
+game_date,8/2/2022
+season_year,2021
+team_name,Olympic (Women) - Canada
+opp_team_name,Olympic (Women) - United States
+venue,away
+period,1
+clock_seconds,352
+situation_type,5 on 4
+goals_for,0
+goals_against,0
+player_name,Brianne Jenner
+event,Shot
+high_danger_unblocked,1.0
+assumed_danger_states,1
+event_successful,t
+side_of_rink,1
+x_coord,181.0
+y_coord,45.0
+distance_to_attacking_net,8.381527307
+angle_to_attacking_net,72.64597536
+event_type,Snapshot
+player_name_2,
+x_coord_2,
+y_coord_2,
+distance_to_net_2,
+angle_to_attacking_net_2,
+event_detail_1,On Net
+event_detail_2,f
+event_detail_3,t
+frame_id_1,1041.0
+frame_id_2,
+game_seconds,848
+away_player_1,Sarah Fillier
+away_position_1,Center
+away_x_1,193.5200779
+away_y_1,54.49927713
+away_player_2,Brianne Jenner
+away_position_2,Center
+away_x_2,178.8821184
+away_y_2,45.11970616
+away_player_3,Marie-Philip Poulin
+away_position_3,Center
+away_x_3,164.2572005
+away_y_3,61.31611991
+away_player_4,Rebecca Johnston
+away_position_4,Center
+away_x_4,172.7310709
+away_y_4,32.30735118
+away_player_5,
+away_position_5,
+away_x_5,
+away_y_5,
+home_player_1,Lee Stecklein
+home_position_1,Defense
+home_x_1,180.207008
+home_y_1,40.47272063
+home_player_2,Alex Carpenter
+home_position_2,Left Wing
+home_x_2,170.2668153
+home_y_2,57.15182737
+home_player_3,Amanda Kessel
+home_position_3,Center
+home_x_3,169.0266244
+home_y_3,37.01447798
+home_player_4,Maddie Rooney
+home_position_4,Goalie
+home_x_4,186.7959313
+home_y_4,43.30975619
+home_player_5,Megan Keller
+home_position_5,Defense
+home_x_5,176.418101
+home_y_5,56.0165059
+away_player_6,
+away_position_6,
+away_x_6,
+away_y_6,
+home_player_6,
+home_position_6,
+home_x_6,
+home_y_6,
+away_player_10,
+away_position_10,
+away_x_10,
+away_y_10,
+away_player_7,
+away_position_7,
+away_x_7,
+away_y_7,
+away_player_8,
+away_position_8,
+away_x_8,
+away_y_8,
+away_player_9,
+away_position_9,
+away_x_9,
+away_y_9,
+home_player_10,
+home_position_10,
+home_x_10,
+home_y_10,
+home_player_7,
+home_position_7,
+home_x_7,
+home_y_7,
+home_player_8,
+home_position_8,
+home_x_8,
+home_y_8,
+home_player_9,
+home_position_9,
+home_x_9,
+home_y_9,
+away_player_20,
+away_position_20,
+away_x_20,
+away_y_20,
+away_player_11,
+away_player_21,
+away_position_11,
+away_position_21,
+away_x_11,
+away_x_21,
+away_y_11,
+away_y_21,
+away_player_12,
+away_player_22,
+away_position_12,
+away_position_22,
+away_x_12,
+away_x_22,
+away_y_12,
+away_y_22,
+away_player_13,
+away_position_13,
+away_x_13,
+away_y_13,
+away_player_14,
+away_position_14,
+away_x_14,
+away_y_14,
+away_player_15,
+away_position_15,
+away_x_15,
+away_y_15,
+away_player_16,
+away_position_16,
+away_x_16,
+away_y_16,
+away_player_17,
+away_position_17,
+away_x_17,
+away_y_17,
+away_player_18,
+away_position_18,
+away_x_18,
+away_y_18,
+away_player_19,
+away_position_19,
+away_x_19,
+away_y_19,
+home_player_20,
+home_position_20,
+home_x_20,
+home_y_20,
+home_player_11,
+home_player_21,
+home_position_11,
+home_position_21,
+home_x_11,
+home_x_21,
+home_y_11,
+home_y_21,
+home_player_12,
+home_player_22,
+home_position_12,
+home_position_22,
+home_x_12,
+home_x_22,
+home_y_12,
+home_y_22,
+home_player_13,
+home_position_13,
+home_x_13,
+home_y_13,
+home_player_14,
+home_position_14,
+home_x_14,
+home_y_14,
+home_player_15,
+home_position_15,
+home_x_15,
+home_y_15,
+home_player_16,
+home_position_16,
+home_x_16,
+home_y_16,
+home_player_17,
+home_position_17,
+home_x_17,
+home_y_17,
+home_player_18,
+home_position_18,
+home_x_18,
+home_y_18,
+home_player_19,
+home_position_19,
+home_x_19,
+home_y_19,
+O Players,4.0
+D Players,5.0
+All MST,"[[ 0.          0.          0.          0.          0.          0.
+   0.         17.16914666]
+ [ 0.          0.          0.          0.          4.8321638   0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          7.3114159
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   5.98998886  0.        ]
+ [ 0.          0.          0.         11.0708127   0.          0.
+   0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          6.2551795 ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.        ]
+ [ 0.         11.17191238  0.          0.          0.          0.
+   0.          0.        ]]"
+All_Avg_Edge,9.114374257208548
+All_Total_Edge,63.800619800459835
+All_Avg_Edges per Player,1.75
+O MST,"[[ 0.         17.38522965  0.          0.        ]
+ [ 0.          0.         21.82228315 14.21238282]
+ [ 0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.        ]]"
+O_Avg_Edge,17.806631873759045
+O_Total_Edge,53.419895621277135
+O_Avg_Edges_per_Player,1.5
+D MST,"[[ 0.          0.         11.703009    7.17374944 15.99890861]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          6.2551795   0.          0.          0.        ]]"
+D_Avg_Edge,10.282711638576643
+D_Total_Edge,41.13084655430657
+D_Avg_Edges per Player,1.6
+OD_MST_Ratio,1.7317058476049885
+All_OCR,0.8571428571428571
+high_danger_within_four,1
