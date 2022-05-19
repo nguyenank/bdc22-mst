@@ -9,10 +9,12 @@ import seaborn as sb
 import copy
 from sklearn.feature_selection import SelectKBest,chi2
 from hockey_rink import BDCRink
+from tqdm import tqdm
 import hockey_mst
 from sklearn.metrics import PrecisionRecallDisplay
 import json
 from sklearn.dummy import DummyClassifier
+from tqdm import tqdm
 
 #display stuff
 plt.rcParams["font.family"] = "Consolas"
@@ -86,7 +88,7 @@ X_train, X_test, y_train, y_test = train_test_split(trans_X, y, test_size=0.2, r
 
 #applying logistic model to training data
 model1_log = linear_model.LogisticRegression(solver='liblinear', penalty='l1', max_iter=10000, class_weight = {0:1, 1:3.5}, random_state=43)
-model1_log.fit(X_train,y_train)
+model1_log.fit(X_train, y_train)
 
 #get features selected by SelectKBest and also their coefficients in the model to put in saved json object
 selected_feature_names.append('intercept')
@@ -186,6 +188,16 @@ plt.title("Training Set 2-class Precision-Recall curve")
 plt.plot([1, 0], [0, 1],'r--')
 plt.show()
 
+# trans_X
+# y
+
+feats = pd.DataFrame(trans_X, columns=selected_feature_names)
+res = pd.DataFrame(model1_log.predict_proba(trans_X), columns=['no', 'yes'])
+
+results = df_all_no_na.reset_index(drop = True).join(res)
+
+# combo = feats.join(res)
+
 # raw_coord_pairs = np.array([x_coords,y_coords]).T
 # raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
 # home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
@@ -277,3 +289,88 @@ for i in [278,71,37,12]:
     plt.savefig(fname='./tool_test_data/Game_State_'+str(i)+'.png')
     features_coef.to_csv('./tool_test_data/feature_values'+str(i)+'.csv', header=False, index=False)
     df_all_no_na.iloc[i].to_csv('./tool_test_data/raw_values'+str(i)+'.csv', header=False, index=True)
+
+# while loop
+for i in tqdm(np.arange(0, len(results))):
+            # print('yes')
+    x_coords = results[x_cols].iloc[i]
+    y_coords = results[y_cols].iloc[i]
+    raw_coord_pairs = np.array([x_coords,y_coords]).T
+        #print(df_all_no_na.iloc[i])
+    prob = model1_log.predict_proba(np.array([trans_X[i]]))[:,1][0] #the second value in each row output by predict_proba is probability of a 1. check model1_log.classes_ for reference
+    
+    if prob > 0.4:
+        fig, ax = plt.subplots(1, 1, figsize=(20, 10))
+        rink = BDCRink()
+        rink.draw(ax=ax)
+        player_role = results[positions].iloc[i]
+        features_coef = pd.DataFrame(np.array([np.array(selected_feature_names)[:-1], trans_X[i]]).T)
+
+        raw_all_coord_pairs = raw_coord_pairs[~(player_role == "Goalie")]
+        all_coord_pairs = raw_all_coord_pairs[~np.isnan(raw_all_coord_pairs)]
+        all_coord_pairs = all_coord_pairs.reshape(int(len(all_coord_pairs)/2),2)
+        plotted = np.argwhere(results["All MST"].iloc[i] > 0)
+        for m in plotted:
+            j,k = m
+            rink.arrow(all_coord_pairs[j,0],all_coord_pairs[j,1],all_coord_pairs[k,0],all_coord_pairs[k,1], color= 'dimgray',width=1)
+
+        if results['venue'].iloc[i] == 'home': #home team is the offensive team
+            raw_home_coord_pairs = raw_coord_pairs[7:][~(player_role[7:] == "Goalie")]
+            home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
+            home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+
+            # print("Offensive")
+            # print(home_coord_pairs)
+            plotted = np.argwhere(results["O MST"].iloc[i] > 0)
+            for m in plotted:
+                j,k = m
+                rink.arrow(home_coord_pairs[j,0],home_coord_pairs[j,1],home_coord_pairs[k,0],home_coord_pairs[k,1], color= 'lightgreen')
+            rink.scatter(results['x_coord'].iloc[i],results['y_coord'].iloc[i], label = "Puck Location", c='black', s=200, ax = ax,zorder=102)
+            rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=160, ax = ax,edgecolors='black',zorder=101)
+
+            raw_away_coord_pairs = raw_coord_pairs[:7]#[~(player_role[7:] == "Goalie")]
+            away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
+            away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
+
+            # print("Defensive")
+            # print(away_coord_pairs)
+            plotted = np.argwhere(results["D MST"].iloc[i] > 0)
+            for m in plotted:
+                j,k = m
+                rink.arrow(away_coord_pairs[j,0],away_coord_pairs[j,1],away_coord_pairs[k,0],away_coord_pairs[k,1], color= 'darkorange')
+            rink.scatter(away_coord_pairs.T[0],away_coord_pairs.T[1], label = "Defensive", c='darkorange', s=160, ax = ax,edgecolors='black',zorder=101)
+        elif results['venue'].iloc[i] == 'away': #away is offensive team
+
+            raw_home_coord_pairs = raw_coord_pairs[7:]#[~(player_role[7:] == "Goalie")]
+            home_coord_pairs = raw_home_coord_pairs[~np.isnan(raw_home_coord_pairs)]
+            home_coord_pairs = home_coord_pairs.reshape(int(len(home_coord_pairs)/2),2)
+            # print("Defensive")
+            # print(home_coord_pairs)
+            plotted = np.argwhere(results["D MST"].iloc[i] > 0)
+            for m in plotted:
+                j,k = m
+                rink.arrow(home_coord_pairs[j,0],home_coord_pairs[j,1],home_coord_pairs[k,0],home_coord_pairs[k,1], color= 'darkorange')
+            rink.scatter(home_coord_pairs.T[0],home_coord_pairs.T[1], label = "Defensive", c='darkorange', s=160, ax=ax,edgecolors='black',zorder=101)
+
+            raw_away_coord_pairs = raw_coord_pairs[:7][~(player_role[:7] == "Goalie")]
+            away_coord_pairs = raw_away_coord_pairs[~np.isnan(raw_away_coord_pairs)]
+            away_coord_pairs = away_coord_pairs.reshape(int(len(away_coord_pairs)/2),2)
+
+            # print("Offensive")
+            # print(away_coord_pairs)
+            plotted = np.argwhere(results["O MST"].iloc[i] > 0)
+            # print(plotted)
+            for m in plotted:
+                j,k = m
+                rink.arrow(away_coord_pairs[j,0],away_coord_pairs[j,1],away_coord_pairs[k,0],away_coord_pairs[k,1], color= 'lightgreen')
+            rink.scatter(results['x_coord'].iloc[i],results['y_coord'].iloc[i], label = "Puck Location",c='black', s=200, ax=ax,zorder=102)
+            rink.scatter(away_coord_pairs.T[0], away_coord_pairs.T[1], label = "Offensive", c='lightgreen', s=160,ax=ax,edgecolors='black',zorder=101)
+        plt.title("Game State "+str(i)+": Probability of a Dangerous Situation = "+str(prob)+'\n # of O Players: '+str(results['O Players'].iloc[i])+', # of D Players (with Goalie if present): '+str(results['D Players'].iloc[i]), fontsize = 20)
+        leg = plt.legend(fontsize = 15)
+        leg.set_zorder(120)
+
+        plt.savefig(fname='./high_danger_states/plots/Game_State_'+str(i)+'.png')
+        features_coef.to_csv('./high_danger_states/feature_values/feature_values'+str(i)+'.csv', header=False, index=False)
+        results.iloc[i].to_csv('./high_danger_states/raw_values/raw_values'+str(i)+'.csv', header=False, index=True)  
+    else:
+        continue
