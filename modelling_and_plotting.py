@@ -290,6 +290,12 @@ for i in [278,71,37,12]:
     features_coef.to_csv('./tool_test_data/feature_values'+str(i)+'.csv', header=False, index=False)
     df_all_no_na.iloc[i].to_csv('./tool_test_data/raw_values'+str(i)+'.csv', header=False, index=True)
 
+########################################################################################
+########################################################################################
+########################################################################################
+########################################################################################
+########################################################################################
+# Loops for identifying high and low danger states and trends bt the two
 # for loop for high danger states
 for i in tqdm(np.arange(0, len(df_all_no_na))):
     # print('yes')
@@ -378,7 +384,11 @@ for i in tqdm(np.arange(0, len(df_all_no_na))):
     else:
         continue
 
-# for loop for high danger states
+# res.sort_values(by = 'yes', ascending = True).head(60)
+
+# res[(res.no > 0.9) & (res.no < 0.95)].reset_index()
+
+# for loop for low danger states
 for i in tqdm(np.arange(0, len(df_all_no_na))):
     # print('yes')
     x_coords = df_all_no_na[x_cols].iloc[i]
@@ -390,7 +400,11 @@ for i in tqdm(np.arange(0, len(df_all_no_na))):
     # round(1.11111111111, 1)
     prob = np.round(prob, 3)
 
-    if prob < 0.1:
+    # setting to take plots bt 5% and 10% chance of high danger 
+    # why?
+    # because...uh, there were fewer bt 5%-10% than just under 10% to comb through
+    # the odds are low, but never 0
+    if (prob < 0.1) & (prob > 0.05):
         fig, ax = plt.subplots(1, 1, figsize=(20, 10))
         rink = BDCRink()
         rink.draw(ax=ax)

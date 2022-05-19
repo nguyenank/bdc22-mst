@@ -1,0 +1,250 @@
+game_date,14/2/2022
+season_year,2021
+team_name,Olympic (Women) - Switzerland
+opp_team_name,Olympic (Women) - Canada
+venue,away
+period,1
+clock_seconds,212
+situation_type,5 on 4
+goals_for,0
+goals_against,5
+player_name,Shannon Sigrist
+event,Play
+high_danger_unblocked,
+assumed_danger_states,0
+event_successful,f
+side_of_rink,0
+x_coord,59.0
+y_coord,82.0
+distance_to_attacking_net,62.16309194
+angle_to_attacking_net,129.4515337
+event_type,Indirect
+player_name_2,Rahel Enzler
+x_coord_2,54.0
+y_coord_2,80.0
+distance_to_net_2,
+angle_to_attacking_net_2,
+event_detail_1,
+event_detail_2,
+event_detail_3,
+frame_id_1,5955.0
+frame_id_2,
+game_seconds,988
+away_player_1,Evelina Raselli
+away_position_1,Center
+away_x_1,51.75675676
+away_y_1,19.58108108
+away_player_2,Rahel Enzler
+away_position_2,Center
+away_x_2,55.2004717
+away_y_2,76.97877359
+away_player_3,Shannon Sigrist
+away_position_3,Defense
+away_x_3,66.65684524
+away_y_3,83.10446429
+away_player_4,Sinja Leemann
+away_position_4,Defense
+away_x_4,78.22771836
+away_y_4,59.2703877
+away_player_5,Dominique Ruegg
+away_position_5,Center
+away_x_5,10.34177215
+away_y_5,67.52531646
+home_player_1,Renata Fast
+home_position_1,Defense
+home_x_1,31.77162162
+home_y_1,40.54481982
+home_player_2,Sarah Nurse
+home_position_2,Center
+home_x_2,47.93452381
+home_y_2,48.65476191
+home_player_3,Jocelyne Larocque
+home_position_3,Defense
+home_x_3,41.33522727
+home_y_3,69.33522727
+home_player_4,Ann-Renee Desbiens
+home_position_4,Goalie
+home_x_4,11.42212042
+home_y_4,44.43848168
+home_player_5,Emily Clark
+home_position_5,Center
+home_x_5,59.37723214
+home_y_5,79.36111111
+away_player_6,
+away_position_6,
+away_x_6,
+away_y_6,
+home_player_6,
+home_position_6,
+home_x_6,
+home_y_6,
+away_player_10,
+away_position_10,
+away_x_10,
+away_y_10,
+away_player_7,
+away_position_7,
+away_x_7,
+away_y_7,
+away_player_8,
+away_position_8,
+away_x_8,
+away_y_8,
+away_player_9,
+away_position_9,
+away_x_9,
+away_y_9,
+home_player_10,
+home_position_10,
+home_x_10,
+home_y_10,
+home_player_7,
+home_position_7,
+home_x_7,
+home_y_7,
+home_player_8,
+home_position_8,
+home_x_8,
+home_y_8,
+home_player_9,
+home_position_9,
+home_x_9,
+home_y_9,
+away_player_20,
+away_position_20,
+away_x_20,
+away_y_20,
+away_player_11,
+away_player_21,
+away_position_11,
+away_position_21,
+away_x_11,
+away_x_21,
+away_y_11,
+away_y_21,
+away_player_12,
+away_player_22,
+away_position_12,
+away_position_22,
+away_x_12,
+away_x_22,
+away_y_12,
+away_y_22,
+away_player_13,
+away_position_13,
+away_x_13,
+away_y_13,
+away_player_14,
+away_position_14,
+away_x_14,
+away_y_14,
+away_player_15,
+away_position_15,
+away_x_15,
+away_y_15,
+away_player_16,
+away_position_16,
+away_x_16,
+away_y_16,
+away_player_17,
+away_position_17,
+away_x_17,
+away_y_17,
+away_player_18,
+away_position_18,
+away_x_18,
+away_y_18,
+away_player_19,
+away_position_19,
+away_x_19,
+away_y_19,
+home_player_20,
+home_position_20,
+home_x_20,
+home_y_20,
+home_player_11,
+home_player_21,
+home_position_11,
+home_position_21,
+home_x_11,
+home_x_21,
+home_y_11,
+home_y_21,
+home_player_12,
+home_player_22,
+home_position_12,
+home_position_22,
+home_x_12,
+home_x_22,
+home_y_12,
+home_y_22,
+home_player_13,
+home_position_13,
+home_x_13,
+home_y_13,
+home_player_14,
+home_position_14,
+home_x_14,
+home_y_14,
+home_player_15,
+home_position_15,
+home_x_15,
+home_y_15,
+home_player_16,
+home_position_16,
+home_x_16,
+home_y_16,
+home_player_17,
+home_position_17,
+home_x_17,
+home_y_17,
+home_player_18,
+home_position_18,
+home_x_18,
+home_y_18,
+home_player_19,
+home_position_19,
+home_x_19,
+home_y_19,
+O Players,5.0
+D Players,5.0
+All MST,"[[ 0.          0.          0.          0.          0.         28.96349372
+   0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.         26.49430716  0.          0.
+   0.          0.          8.18568628]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.         31.04625642  0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.         18.08343352
+   0.          0.          0.        ]
+ [ 0.         15.8325236   0.          0.          0.          0.
+  21.7078871   0.          0.        ]
+ [ 0.          4.80841552  0.          0.          0.          0.
+   0.          0.          0.        ]]"
+All_Avg_Edge,19.390250414268458
+All_Total_Edge,155.12200331414766
+All_Avg_Edges per Player,1.7777777777777777
+O MST,"[[ 0.          0.          0.         47.7069478   0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.         12.99125018  0.          0.          0.        ]
+ [ 0.          0.         26.49430716  0.          0.        ]
+ [ 0.         45.843983    0.          0.          0.        ]]"
+O_Avg_Edge,33.259122032143026
+O_Total_Edge,133.0364881285721
+O_Avg_Edges_per_Player,1.6
+D MST,"[[ 0.         18.08343352  0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.         21.7078871   0.          0.         20.64054957]
+ [20.7186583   0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]]"
+D_Avg_Edge,20.287632122439653
+D_Total_Edge,81.15052848975861
+D_Avg_Edges per Player,1.6
+OD_MST_Ratio,1.6393791957295956
+All_OCR,0.625
+high_danger_within_four,0
