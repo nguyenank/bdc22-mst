@@ -1,7 +1,4 @@
 # Highway to the Danger Zone 𝅗𝅥 𝅗𝅥 𝅗𝅥 𝅗𝅥 𝅘𝅥 ♫ 𝅘𝅥
-
-
-#  Highway to the Danger Zone ♩♩♩♩♩♩♩
 In this project, we develop a logistic regression model to analytically identify the situations in which defensive play breaks down and in what situations does it successfully prevent shots by predicting the proability of a game state being a dangerous situation  (i.e. the probability of a high-danger unblocked shot by the power play within the three passes following the configuration). We additionally build an actionable tool (https://highway-to-the-danger-zone.netlify.app/ | Github: https://github.com/nguyenank/bdc22-mst-website) that coaches and analysts can use to apply to their own teams and strategies to both minimize and maximize high-danger shot attempts. Read the full writeup in .
 
 The final merged and cleaned dataset used is [all_powerplays_4-23-22_cleaned_trimmed.csv](https://github.com/nguyenank/bdc22-mst/blob/main/all_powerplays_4-23-22_cleaned_trimmed.csv "all_powerplays_4-23-22_cleaned_trimmed.csv"). The 'pipeline' for running this project was the follwing:
