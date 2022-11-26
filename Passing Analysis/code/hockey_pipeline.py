@@ -168,10 +168,60 @@ class tracks():
             self.expected = loc_pass_value.sum() * np.ones(self.x.shape)
 
         def __call__(self):   
-            return np.stack((self.x,self.y,self.t,self.all_ctrl,self.prob,self.best_case,self.expected),1)    
+            return np.stack((self.x,self.y,self.t,self.all_ctrl,self.score*self.all_ctrl,self.prob,self.best_case,self.expected),1)  #Robyn - added self.score*self.all_ctrl for location value of passer  
+
+#Robyn - added metrics which uses tracks to calculate various metrics used in modelling
+class metrics(tracks):
+    def home_plate(self):
+        y_upper = 35.05+0.95*self.grid[:,0]
+        y_lower = 49.95-0.95*self.grid[:,0]
+        square = np.array((self.grid[:,0]<=46,self.grid[:,0]>=11,
+                        self.grid[:,1]<=64.5,self.grid[:,1]>=20.5,
+                        np.logical_and(self.grid[:,0]<=31,self.grid[:,1]<=y_upper),
+                        np.logical_and(self.grid[:,0]<=31,self.grid[:,1]>=y_lower)))
+        in_square = np.logical_and.reduce(square)
+        square_grid = self.grid[in_square,]
+        return np.mean(square_grid[:,3])
+
+    def control_of_rink(self):
+        return np.mean(self.grid[:,3])
+
+    def max_metrics(self,n):
+        return np.max(self.grid[:,n])
+
+    def passer_location(self):
+        x_passer = self.xp+self.vx[self.puck]
+        y_passer = self.yp+self.vy[self.puck]
+        return self.grid[np.argmin((x_passer-self.grid[:,0])**2+(y_passer-self.grid[:,1])**2),4]
+
+    def metrics_offense(self,measure='max'):
+        x_0 = np.delete(np.array(self.x)+self.vx,self.puck)
+        y_0 = np.delete(np.array(self.y)+self.vy,self.puck)
+        off_0 = np.delete(self.off,self.puck)
+        x_off = x_0[np.array(off_0)==1]
+        y_off = y_0[np.array(off_0)==1]
+        vals_at_players = np.empty((len(x_off),3))
+        i=0
+        for (xx,yy) in zip(x_off,y_off):
+            vals_at_players[i,:]=(self.grid[np.argmin((xx-self.grid[:,0])**2+(yy-self.grid[:,1])**2),5:])
+            i+=1
+        #row 0 = x, row 1 = y, col 1 = successful, col 2 = best, col 3 = expected
+        positions = pd.DataFrame([x_off[np.argmax(vals_at_players,axis=0)],y_off[np.argmax(vals_at_players,axis=0)]])
+        if measure=='max':
+            return (tuple(vals_at_players.max(axis=0)),tuple(positions[0]),tuple(positions[1]),tuple(positions[2]))
+        else:
+            return tuple(vals_at_players.mean(axis=0))
+        
+    def get_metrics(self):   
+        metrics_grid = (self.home_plate(),self.control_of_rink(),
+        self.max_metrics(5),self.max_metrics(6),self.max_metrics(7),
+        self.passer_location(), #is the passer in a shooting position with control
+        self.metrics_offense('max'), #is there an available pass for each of these options
+        self.metrics_offense('mean'))   #how good is the teams positioning
+        return np.array(metrics_grid[0:6]+metrics_grid[6][0][:]+metrics_grid[6][1][:]+metrics_grid[6][2][:]+metrics_grid[6][3][:]+metrics_grid[7][:])
 
 
-
+        
 
 if __name__ == '__main__':
     x = list(200 -np.array([171.4262, 155.6585, 153.7146, 150.5869, 156.3463, 179.8383, 180.8131, 186.6146, 179.9982]))
@@ -181,5 +231,61 @@ if __name__ == '__main__':
     goalie = 7
     puck= 3
     off=list(np.array([-1, -1, 1, 1, -1, 1, -1, -1, 1]))
-    all_tracks = tracks(x,y,vx,vy,goalie,puck,off)
+    all_tracks = metrics(x,y,vx,vy,goalie,puck,off) #Robyn - changed tracks to metrics
+
+#print(all_tracks.get_metrics())
+
+    #Robyn - all_tracks.grid to get x,y,t,control,location value, successful, best case, expected
+    #Robyn - all_tracks.get_metrics() will give you home_plate_control percent, rink control percent, max successful, max best case, max expected, 
+    #value at passer, 
+    #max successful at player locations and player location's x and y, max best case at player locations and player location's x and y, 
+    #max expected at player locations and player location's x and y, mean successful, mean best case, mean expected
     
+
+    # Robyn - Code for getting metrics on training data
+
+#     csv_df = pd.read_csv('all_powerplays_clean.csv')
+#     metrics_grid = np.empty((csv_df.shape[0],18))
+#     current_index = -1
+#     for data in csv_df.iterrows():
+#     current_index+=1
+#     # if current_index==24:
+#     #     data['away_x_5_velo']=0.05
+#         # data[1]['away_y_5_velo']=0.05
+#     x0 = data[1][125:137]
+#     to_remove = np.where(pd.isna(x0),1,0)
+#     x = list((np.array(x0))[np.array(to_remove)==0])
+#     y = list((np.array(data[1][137:149]))[np.array(to_remove)==0])
+#     vx_0 = np.where(pd.isna(data[1][149:161]),0.05,data[1][149:161])
+#     vx = list((np.array(vx_0))[np.array(to_remove)==0])
+#     vy_0 = np.where(pd.isna(data[1][161:173]),0.05,data[1][161:173])
+#     vy = list((np.array(vy_0))[np.array(to_remove)==0])
+#     off = list((np.array(data[1][173:185]))[np.array(to_remove)==0])
+#     puck = int(data[1][185])-1
+#     puck= puck-sum(to_remove[:puck])
+#     if pd.isna(data[1][186]): #goalie not in tracking data
+#         x = x+[12]
+#         y = y+[42.5]
+#         vx = vx+[0.01]
+#         vy = vy+[0.01]
+#         off = off+[-1]
+#         goalie = len(x)-1
+#     else:
+#         goalie = int(data[1][186])-1
+#         goalie= goalie-sum(to_remove[:goalie])
+#     # Puck is outside the offensive zone or not enough players tracked
+#     if x[puck]>105 or y[puck]>90 or off.count(-1)<2 or off.count(1)<2 or current_index in (391,392):
+#         metrics_grid[current_index,:] = np.repeat(np.nan,18)
+#     else:
+#         # Small adjustment if puck is just outside, to account for tracking uncertainty
+#         if x[puck]>99:
+#         x[puck]=99
+#     if x[puck]<1:
+#       x[puck]+=1
+#     if y[puck]<1:
+#       y[puck]+=1
+#     if y[puck]>84:
+#       y[puck]=84
+#     all_tracks = metrics(x,y,vx,vy,goalie,puck,off)
+#     metrics_grid[current_index,:] = all_tracks.get_metrics()
+#   print(current_index)
