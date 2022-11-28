@@ -64,6 +64,7 @@ class tracks():
         # self.tracks = pd.DataFrame({'x':x,'y':y,'vx':vx,'vy':vy,'goalie':goalie,'off':off})
         self.player_motion()
         self.grid = np.concatenate([self.one_pass(self, phi)() for phi in np.arange(-np.pi,np.pi+EPS, phi_res)], axis = 0)
+        # full_grid = [self.one_pass(self, phi)() for phi in np.arange(-np.pi,np.pi+EPS, phi_res)]
 
     def player_motion(self, alpha: float = ALPHA, t_r: float = TR, vmax: float = MAX_VEL):
         t = np.arange(self.t_res,MAX_TIME, self.t_res).reshape(-1,1)
@@ -173,15 +174,10 @@ class tracks():
 #Robyn - added metrics which uses tracks to calculate various metrics used in modelling
 class metrics(tracks):
     def home_plate(self):
-        y_upper = 35.05+0.95*self.grid[:,0]
-        y_lower = 49.95-0.95*self.grid[:,0]
-        square = np.array((self.grid[:,0]<=46,self.grid[:,0]>=11,
-                        self.grid[:,1]<=64.5,self.grid[:,1]>=20.5,
-                        np.logical_and(self.grid[:,0]<=31,self.grid[:,1]<=y_upper),
-                        np.logical_and(self.grid[:,0]<=31,self.grid[:,1]>=y_lower)))
-        in_square = np.logical_and.reduce(square)
-        square_grid = self.grid[in_square,]
-        return np.mean(square_grid[:,3])
+        y_upper = np.where(self.grid[:,0] <= 31, 35.05+0.95*self.grid[:,0], 64.5)
+        y_lower = np.where(self.grid[:,0] <= 31, 49.95-0.95*self.grid[:,0], 20.5)
+        square = (self.grid[:,0]<=46) * (self.grid[:,0]>=11) * (self.grid[:,1]<=y_upper) * (self.grid[:,1]>=y_lower)
+        return self.grid[square,3].mean()
 
     def control_of_rink(self):
         return np.mean(self.grid[:,3])
