@@ -1,0 +1,249 @@
+game_date,16/2/2022
+season_year,2021
+team_name,Olympic (Women) - Finland
+opp_team_name,Olympic (Women) - Switzerland
+venue,home
+period,2
+clock_seconds,203
+situation_type,5 on 4
+goals_for,1
+goals_against,0
+player_name,Nelli Laitinen
+event,Play
+high_danger_unblocked,
+assumed_danger_states,0
+event_successful,t
+side_of_rink,0
+x_coord,144.0
+y_coord,6.0
+distance_to_attacking_net,57.94178113
+angle_to_attacking_net,129.0458926
+event_type,Direct
+player_name_2,Minnamari Tuominen
+x_coord_2,71.0
+y_coord_2,61.0
+distance_to_net_2,62.78733949
+angle_to_attacking_net_2,107.1362745
+event_detail_1,
+event_detail_2,
+event_detail_3,
+frame_id_1,754.0
+frame_id_2,775.0
+game_seconds,2197
+away_player_1,Alina Muller
+away_position_1,Center
+away_x_1,147.58213381000002
+away_y_1,19.714798950000002
+away_player_2,Shannon Sigrist
+away_position_2,Defense
+away_x_2,166.35103111
+away_y_2,28.657904860000002
+away_player_3,Noemi Ryhner
+away_position_3,Center
+away_x_3,163.14133449
+away_y_3,43.27541975
+away_player_4,Sarah Forster
+away_position_4,Defense
+away_x_4,180.98498388000002
+away_y_4,41.95229848
+away_player_5,
+away_position_5,
+away_x_5,
+away_y_5,
+home_player_1,Nelli Laitinen
+home_position_1,Defense
+home_x_1,154.12883053000002
+home_y_1,12.531756049999998
+home_player_2,Ronja Savolainen
+home_position_2,Defense
+home_x_2,169.75045495
+home_y_2,30.031718820000002
+home_player_3,Minnamari Tuominen
+home_position_3,Defense
+home_x_3,130.55566514999998
+home_y_3,24.546198920000002
+home_player_4,Elisa Holopainen
+home_position_4,Left Wing
+home_x_4,141.67976240000002
+home_y_4,47.74794917
+home_player_5,Viivi Vainikka
+home_position_5,Center
+home_x_5,186.22222188
+home_y_5,39.08786815
+away_player_6,
+away_position_6,
+away_x_6,
+away_y_6,
+home_player_6,
+home_position_6,
+home_x_6,
+home_y_6,
+away_player_10,
+away_position_10,
+away_x_10,
+away_y_10,
+away_player_7,
+away_position_7,
+away_x_7,
+away_y_7,
+away_player_8,
+away_position_8,
+away_x_8,
+away_y_8,
+away_player_9,
+away_position_9,
+away_x_9,
+away_y_9,
+home_player_10,
+home_position_10,
+home_x_10,
+home_y_10,
+home_player_7,
+home_position_7,
+home_x_7,
+home_y_7,
+home_player_8,
+home_position_8,
+home_x_8,
+home_y_8,
+home_player_9,
+home_position_9,
+home_x_9,
+home_y_9,
+away_player_20,
+away_position_20,
+away_x_20,
+away_y_20,
+away_player_11,
+away_player_21,
+away_position_11,
+away_position_21,
+away_x_11,
+away_x_21,
+away_y_11,
+away_y_21,
+away_player_12,
+away_player_22,
+away_position_12,
+away_position_22,
+away_x_12,
+away_x_22,
+away_y_12,
+away_y_22,
+away_player_13,
+away_position_13,
+away_x_13,
+away_y_13,
+away_player_14,
+away_position_14,
+away_x_14,
+away_y_14,
+away_player_15,
+away_position_15,
+away_x_15,
+away_y_15,
+away_player_16,
+away_position_16,
+away_x_16,
+away_y_16,
+away_player_17,
+away_position_17,
+away_x_17,
+away_y_17,
+away_player_18,
+away_position_18,
+away_x_18,
+away_y_18,
+away_player_19,
+away_position_19,
+away_x_19,
+away_y_19,
+home_player_20,
+home_position_20,
+home_x_20,
+home_y_20,
+home_player_11,
+home_player_21,
+home_position_11,
+home_position_21,
+home_x_11,
+home_x_21,
+home_y_11,
+home_y_21,
+home_player_12,
+home_player_22,
+home_position_12,
+home_position_22,
+home_x_12,
+home_x_22,
+home_y_12,
+home_y_22,
+home_player_13,
+home_position_13,
+home_x_13,
+home_y_13,
+home_player_14,
+home_position_14,
+home_x_14,
+home_y_14,
+home_player_15,
+home_position_15,
+home_x_15,
+home_y_15,
+home_player_16,
+home_position_16,
+home_x_16,
+home_y_16,
+home_player_17,
+home_position_17,
+home_x_17,
+home_y_17,
+home_player_18,
+home_position_18,
+home_x_18,
+home_y_18,
+home_player_19,
+home_position_19,
+home_x_19,
+home_y_19,
+O Players,5.0
+D Players,4.0
+All MST,"[[ 0.          0.          0.          0.          0.          0.
+  17.69867398  0.          0.        ]
+ [ 0.          0.          0.          0.         20.23449684  0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 9.71881388  0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          3.66653068 14.80121912 16.38031928  0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.         21.9226503   0.          0.          0.
+   0.          0.          0.        ]
+ [ 0.          0.          0.          5.9693905   0.          0.
+   0.          0.          0.        ]]"
+All_Avg_Edge,13.799011823745513
+All_Total_Edge,110.3920945899641
+All_Avg_Edges per Player,1.7777777777777777
+O MST,"[[ 0.         23.45812965 26.45828724  0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          0.          0.          0.          0.        ]
+ [ 0.          0.         25.73065787  0.          0.        ]
+ [ 0.         18.79715262  0.          0.          0.        ]]"
+O_Avg_Edge,23.61105684157959
+O_Total_Edge,94.44422736631836
+O_Avg_Edges_per_Player,1.6
+D MST,"[[ 0.         20.7906385   0.          0.        ]
+ [ 0.          0.         14.96575738  0.        ]
+ [ 0.          0.          0.         17.89263741]
+ [ 0.          0.          0.          0.        ]]"
+D_Avg_Edge,17.883011095761546
+D_Total_Edge,53.64903328728464
+D_Avg_Edges per Player,1.5
+OD_MST_Ratio,1.320306558842076
+All_OCR,1.0
+high_danger_within_four,0
